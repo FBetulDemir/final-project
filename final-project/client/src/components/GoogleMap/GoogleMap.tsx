@@ -4,6 +4,7 @@ import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 const GoogleMap = () => {
   //* For now I just added Malmö latitude and longitude
   const position = { lat: Number(55.605), lng: Number(13.0038) };
+
   return (
     <>
       <APIProvider
