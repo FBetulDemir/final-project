@@ -1,4 +1,3 @@
-import './GoogleMap.css';
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 
 const GoogleMap = () => {
@@ -13,7 +12,7 @@ const GoogleMap = () => {
       >
         <div style={{ height: '50vh', width: '100%' }}>
           <Map
-            zoom={9}
+            zoom={10}
             center={position}
             mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
           >
