@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.description {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 0px;
+}
+.container-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container-info-location {
+  width: 200px;
+}
+button {
+  background-color: #bfbfbf;
+  padding: 10 15px;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.2),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  outline: 4px solid transparent;
+  transition: box-shadow 0.3s ease, outline 0.3s ease;
+}
+button:hover {
+  background-color: #dca0ff;
+}
