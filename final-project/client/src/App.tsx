@@ -1,11 +1,12 @@
-import "./App.css";
+import React from 'react';
+import Browser from "./components/Browser"
 
-function App() {
+const App = () => {
   return (
-    <>
-      <h1>It's ShowTime!</h1>
-    </>
+    <div>
+      <Browser />
+    </div>
   );
-}
+};
 
 export default App;
