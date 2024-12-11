@@ -18,14 +18,17 @@
 .container-info-location {
   width: 200px;
 }
-button {
-  background-color: #bfbfbf;
+.buy-ticket-btn {
+  background-color: #a4a4a4;
   padding: 10 15px;
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.2),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
   outline: 4px solid transparent;
-  transition: box-shadow 0.3s ease, outline 0.3s ease;
+  transition: 0.8s ease;
+  border-style: none;
 }
-button:hover {
-  background-color: #dca0ff;
+.buy-ticket-btn:hover {
+  background-color: #cfcfcf;
+  color: #000;
+  border-style: none;
 }
