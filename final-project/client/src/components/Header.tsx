@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import Logo from '../assets/logo.png';
 
 const Header: React.FC = () => {
     return (
         <header className='header'>
-            <div className='logo'>Event</div>
+            <div className='logo-container'>
+                <img src={Logo} alt='EventHub Logo' className='logo-image' />
+                <span className='logo-text'>EventHub</span>
+            </div>
             <nav>
                 <ul className='nav-links'>
                     <li>
