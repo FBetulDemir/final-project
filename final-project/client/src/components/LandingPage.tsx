@@ -3,6 +3,7 @@ import './LandingPage.css';
 import Header from './Header';
 import EventSlider from './EventSlider';
 import MainEventBanner from './MainEventBanner';
+import GenreGrid from './GenreGrid';
 
 interface EventData {
     id: string;
@@ -78,11 +79,20 @@ const LandingPage: React.FC = () => {
                 <p>Loading events...</p>
             ) : events.length > 0 ? (
                 <>
+                    <h2 className='current-city-info'>
+                        All the music events in {city}
+                    </h2>
                     <MainEventBanner event={mainEvent} />
-                    <section className='events'>
-                        <h2>Featured Events</h2>
-                        <EventSlider events={otherEvents} />
-                    </section>
+                    <div className='bottom-content'>
+                        <section className='events'>
+                            <h2>Featured Events</h2>
+                            <EventSlider events={otherEvents} />
+                        </section>
+                        <section className='genre-section'>
+                            <h2>Explore by Genre</h2>
+                            <GenreGrid />
+                        </section>
+                    </div>
                 </>
             ) : (
                 <p>No events found for the specified city.</p>

@@ -1,0 +1,51 @@
+.genre-grid {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    width: 70%;
+    height: 300px;
+    margin: auto;
+    color: rgb(232, 222, 222);
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.genre-item {
+    display: flex;
+    align-content: center;
+    justify-items: center;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.genre-name {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.genre-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.genre-item-large {
+    grid-column: span 1;
+    grid-row: span 3;
+}
+
+.genre-item-medium {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.genre-item-small {
+    grid-column: span 1;
+    grid-row: span 1;
+}

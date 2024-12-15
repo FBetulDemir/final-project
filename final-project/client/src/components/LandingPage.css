@@ -1,5 +1,6 @@
 .landing-page {
     text-align: center;
+    height: 150vh;
 }
 
 .music-section {
@@ -29,6 +30,12 @@
     border-radius: 5px;
 }
 
+.events h2,
+.current-city-info,
+.genre-section h2 {
+    margin: 2em 0;
+}
+
 .city-input {
     margin: 2em 0;
     padding: 1em;
@@ -36,4 +43,20 @@
     border-radius: 5px;
     width: 100%;
     max-width: 30em;
+}
+
+.bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.events {
+    flex: 3;
+}
+
+.genre-section {
+    flex: 1;
 }
