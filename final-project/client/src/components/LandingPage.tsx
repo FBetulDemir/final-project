@@ -1,69 +1,92 @@
 import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
 import Header from './Header';
+import EventSlider from './EventSlider';
+import MainEventBanner from './MainEventBanner';
 
 interface EventData {
-    id: number;
-    artist: string;
+    id: string;
+    name: string;
     location: string;
-    city: string;
     date: string;
-    genre: string;
     image: string;
 }
 
 const LandingPage: React.FC = () => {
     const [events, setEvents] = useState<EventData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [city, setCity] = useState<string>('Los Angeles');
 
-    // Fetch event data from an API
     useEffect(() => {
         const fetchEvents = async () => {
+            setLoading(true);
             try {
-                const response = await fetch('https://api.example.com/events');
+                const response = await fetch(
+                    `http://localhost:5000/api/events?countryCode=US&segmentId=KZFzniwnSyZfZ7v7nJ&city=${city}`
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Error: ${response.status} ${response.statusText}`
+                    );
+                }
+
                 const data = await response.json();
-                setEvents(data);
+                const formattedEvents = data.map((event: any) => ({
+                    id: event.id,
+                    name: event.name,
+                    location:
+                        event._embedded?.venues[0]?.name || 'Unknown Location',
+                    date: event.dates?.start?.localDate || 'Unknown Date',
+                    image: event.images?.[0]?.url || '',
+                }));
+                setEvents(formattedEvents);
             } catch (error) {
-                console.error('Error fetching event data:', error);
+                console.error('Error fetching event data:', error.message);
+                setEvents([]);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchEvents();
-    }, []);
+    }, [city]);
+
+    const mainEvent = events[0];
+    const otherEvents = events.slice(1);
 
     return (
         <div className='landing-page'>
             <Header />
-            <section className='hero'>
-                <div className='hero-content'>
-                    <h1>Discover Amazing Events</h1>
+            <section className='music-section'>
+                <div className='music-content'>
+                    <h1>Discover Amazing Music Events</h1>
                     <p>
-                        Browse concerts, festivals, and shows happening near
-                        you.
+                        Browse concerts and music festivals happening near you.
                     </p>
+                    <input
+                        type='text'
+                        placeholder='Enter a city (e.g., Los Angeles)'
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className='city-input'
+                    />
                 </div>
             </section>
 
-            <section className='events'>
-                <h2>Upcoming Events</h2>
-                {loading ? (
-                    <p>Loading events...</p>
-                ) : (
-                    <div className='event-grid'>
-                        {events.map((event) => (
-                            <div key={event.id} className='event-card'>
-                                <img src={event.image} alt={event.artist} />
-                                <h3>{event.artist}</h3>
-                                <p>{event.location}</p>
-                                <p>{event.city}</p>
-                                <p>{event.date}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </section>
+            {loading ? (
+                <p>Loading events...</p>
+            ) : events.length > 0 ? (
+                <>
+                    <MainEventBanner event={mainEvent} />
+                    <section className='events'>
+                        <h2>Featured Events</h2>
+                        <EventSlider events={otherEvents} />
+                    </section>
+                </>
+            ) : (
+                <p>No events found for the specified city.</p>
+            )}
         </div>
     );
 };

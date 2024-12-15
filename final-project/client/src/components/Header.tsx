@@ -8,7 +8,7 @@ const Header: React.FC = () => {
         <header className='header'>
             <div className='logo-container'>
                 <img src={Logo} alt='EventHub Logo' className='logo-image' />
-                <span className='logo-text'>EventHub</span>
+                <span className='logo-text'></span>
             </div>
             <nav>
                 <ul className='nav-links'>
