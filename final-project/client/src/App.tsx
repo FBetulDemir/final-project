@@ -1,11 +1,18 @@
-import './App.css';
-import GoogleMap from './components/GoogleMap/GoogleMap';
+
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from "./pages/Home";
+import Register from "./pages/Register.tsx";
+
 function App() {
   return (
-    <>
-      <h1>It's ShowTime!</h1>
-      <GoogleMap />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/register" element={<Register />}/>
+      </Routes>
+    </Router>
+
   );
 }
 
