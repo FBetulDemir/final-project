@@ -1,26 +1,37 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import router from './BrowserController.js'; // Asegúrate de que la extensión sea .js
+import BrowserController from './BrowserController.js'; // Asegúrate de que el path sea correcto
 
-dotenv.config();
+dotenv.config(); // Cargar las variables de entorno del archivo .env
 
 const app = express();
-
-// Middleware
-app.use(express.json());
+const port = process.env.PORT || 3002; // Usa el puerto de .env o el 3002 por defecto
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch((err) => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error.message);
+    });
+
+// Middleware para parsear el cuerpo de las solicitudes
+app.use(express.json());
 
 // Rutas
-app.use('/api', router); // Ajuste para que las rutas sean accesibles desde /api
+app.use('/api', browserController); // Asegúrate de que el controlador de eventos esté importado correctamente
 
-// Ruta básica
-app.get('/', (req, res) => res.send('API is running...'));
+// Ruta de prueba para verificar que el servidor está funcionando
+app.get('/', (req, res) => {
+    res.send('Server is running!');
+});
 
-// Iniciar servidor
-const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Iniciar el servidor
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
