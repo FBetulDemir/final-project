@@ -1,0 +1,13 @@
+/* Browser.css */
+.gradient-header {
+    background: linear-gradient(90deg, #FF0080, #8A2BE2);
+    height: 100px;
+}
+
+.search-section {
+    margin-top: -50px;
+}
+
+.near-you img {
+    background: #ccc;
+}
