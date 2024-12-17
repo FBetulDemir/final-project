@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const router = express.Router();
-const API_KEY = process.env.API_KEY; // Asegúrate de tener la clave en tu archivo .env
+const API_KEY = process.env.API_KEY; // La clave de la API de Google Maps
 
 // Endpoint para agregar un evento
 router.post('/events', async (req, res) => {
@@ -17,15 +17,15 @@ router.post('/events', async (req, res) => {
     }
 
     try {
-        // Geocodificación con la nueva API
-        const geocodeUrl = `https://your-new-geocoding-api.com/geocode?address=${encodeURIComponent(address)}&key=${API_KEY}`;
+        // Geocodificación con la API de Google Maps
+        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${API_KEY}`;
         const response = await axios.get(geocodeUrl);
 
-        if (!response.data || response.data.status !== 'success') {
+        if (!response.data || response.data.status !== 'OK') {
             return res.status(400).json({ message: 'Address not found or geocoding failed' });
         }
 
-        const { latitude, longitude } = response.data; // Cambia según la estructura de tu API
+        const { lat, lng } = response.data.results[0].geometry.location; // Usamos lat/lng del primer resultado
 
         // Responder con los datos geocodificados
         res.status(201).json({
@@ -35,8 +35,8 @@ router.post('/events', async (req, res) => {
                 concert,
                 location,
                 address,
-                latitude: parseFloat(latitude),
-                longitude: parseFloat(longitude),
+                latitude: parseFloat(lat),
+                longitude: parseFloat(lng),
                 date,
                 ticketPrice,
                 description,

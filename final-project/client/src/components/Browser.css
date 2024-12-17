@@ -1,13 +1,32 @@
-/* Browser.css */
-.gradient-header {
-    background: linear-gradient(90deg, #FF0080, #8A2BE2);
-    height: 100px;
+.near-you .concert-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.search-section {
-    margin-top: -50px;
+.near-you .concert-card:hover {
+    transform: translateY(-10px);
 }
 
-.near-you img {
-    background: #ccc;
+.near-you .concert-card img {
+    height: 150px;
+    object-fit: cover;
+}
+
+.near-you .concert-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.near-you .concert-info h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.near-you .concert-info p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #555;
 }

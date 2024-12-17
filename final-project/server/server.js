@@ -1,9 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import BrowserController from './BrowserController.js'; // Asegúrate de que el path sea correcto
+import BrowserController from 'BrowserController';
+import cors from 'cors';
 
 dotenv.config(); // Cargar las variables de entorno del archivo .env
+app.use(cors());
 
 const app = express();
 const port = process.env.PORT || 3002; // Usa el puerto de .env o el 3002 por defecto
@@ -24,7 +26,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(express.json());
 
 // Rutas
-app.use('/api', browserController); // Asegúrate de que el controlador de eventos esté importado correctamente
+app.use('/api', BrowserController); // Asegúrate de que el controlador de eventos esté importado correctamente
 
 // Ruta de prueba para verificar que el servidor está funcionando
 app.get('/', (req, res) => {

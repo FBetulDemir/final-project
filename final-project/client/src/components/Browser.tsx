@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Asegúrate de tener axios importado
 import './Browser.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const Browser = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [concerts, setConcerts] = useState<any[]>([]);
+
+    // Fetch concerts from the backend
+    useEffect(() => {
+        // Llamada a la API para obtener los conciertos
+        axios.get('/api/concerts')
+            .then((response) => {
+                // Asumiendo que la respuesta es un array de conciertos
+                setConcerts(response.data);
+            })
+            .catch((error) => {
+                console.error("There was an error fetching the concerts:", error);
+            });
+    }, []);  // El array vacío [] asegura que la llamada se haga solo una vez al cargar el componente.
 
     const handleSearch = () => {
-        // Implement search logic here
+        // Implementar la lógica de búsqueda aquí
         console.log('Searching for:', searchQuery);
     };
 
@@ -39,9 +53,16 @@ const Browser = () => {
                 {/* Near You Section */}
                 <h2 className="mt-5">Near You</h2>
                 <div className="row mt-3 near-you">
-                    {[1, 2, 3, 4].map((item) => (
-                        <div key={item} className="col-6 col-md-3 mb-3">
-                            <img src="https://via.placeholder.com/150" alt="Placeholder" className="w-100" />
+                    {concerts.map((concert, index) => (
+                        <div key={index} className="col-6 col-md-3 mb-3">
+                            <div className="concert-card">
+                                <img src={concert.poster} alt={concert.concert} />
+                                <div className="concert-info">
+                                    <h5>{concert.artist}</h5>
+                                    <p>{concert.location}</p>
+                                    <p>{concert.date}</p>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
