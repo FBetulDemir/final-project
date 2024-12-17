@@ -2,9 +2,9 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register.tsx';
-import React from 'react';
+//import React from 'react';
 import Browser from './components/Browser';
-import MusicGenre from './components/MusicGenre/MusicGenre';
+//import MusicGenre from './components/MusicGenre/MusicGenre';
 
 const App = () => {
   return (

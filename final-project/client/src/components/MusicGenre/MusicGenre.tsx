@@ -17,8 +17,8 @@ const MusicGenre: React.FC = () => {
   //* All data comes from another components, so just create Front End
   return (
     <>
-      <h1>Music-Genre</h1>
       <div className='text-container'>
+        <h1>Music-Genre</h1>
         {events.map((event, index) => (
           <div key={index} className='info-container '>
             <div className='name-img-container'>
