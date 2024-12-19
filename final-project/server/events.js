@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import db from "./db.js";
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -26,8 +28,18 @@ router.use(bodyParser.json());
 //     return res.status(401).send("Unauthorized: Invalid token");
 //   }
 // };
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/posters");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `Poster_${Date.now()}${file.originalname}`);
+  },
+});
 
-router.post("/create-event", async (req, res) => {
+const upload = multer({ storage: storage });
+
+router.post("/create-event", upload.single("Poster"), async (req, res) => {
   const {
     EventName,
     Genre,
@@ -38,6 +50,7 @@ router.post("/create-event", async (req, res) => {
     TicketPrice,
     MaxAttendees,
   } = req.body;
+  const posterPath = req.file;
 
   // Form Validation
   if (
@@ -53,13 +66,14 @@ router.post("/create-event", async (req, res) => {
   }
 
   try {
-    // Retrieve the currently logged-in user (replace with your authentication logic)
+    // Retrieve the currently logged-in user
     // const loggedInUser = await getLoggedInUser(req);
     // if (!loggedInUser) {
     //   return res.status(401).send("Unauthorized");
     // }
 
     // Create a new event
+
     const newEvent = new db.Event({
       EventId: new mongoose.Types.ObjectId(),
       MusicianId: "loggedInUser._id", // Associate the event with the logged-in musician
@@ -71,6 +85,7 @@ router.post("/create-event", async (req, res) => {
       DateTime,
       TicketPrice,
       MaxAttendees,
+      Poster: posterPath ? `/uploads/posters${posterPath.filename}` : null,
     });
 
     await newEvent.save();

@@ -22,9 +22,10 @@
 }
 .container {
   text-align: start;
+  max-width: 400px;
+  margin: 0;
 }
 .event-form {
-  gap: 15px;
   border-radius: 8px;
   max-width: 400px;
 }
@@ -47,6 +48,7 @@ fieldset {
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
+  margin-bottom: 10px;
 }
 .event-form select {
   padding: 10px;
@@ -55,6 +57,7 @@ fieldset {
   font-size: 14px;
   color: #333;
   width: 100%;
+  margin-bottom: 12px;
   box-sizing: border-box;
   appearance: none;
 

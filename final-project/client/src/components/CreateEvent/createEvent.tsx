@@ -11,6 +11,7 @@ export interface EventFormData {
   dateTime: Date;
   ticketPrice: number;
   maxAttendees: number;
+  poster: File | null;
 }
 
 export default function CreateEvent() {
@@ -25,10 +26,12 @@ export default function CreateEvent() {
     dateTime: dateObject,
     ticketPrice: 0,
     maxAttendees: 0,
+    poster: null,
   });
 
   const coordLocation = { latitude: "5", longitude: "5" };
   const [error, setError] = useState<{ [key: string]: string }>({});
+  const [posterPreview, setPosterPreview] = useState<string | null>(null);
 
   // Handle input changes
   const handleChange = (
@@ -39,6 +42,19 @@ export default function CreateEvent() {
     const { name, value } = e.target;
     // console.log(`Field: ${name}, Value: ${value}`);
     setEventData({ ...eventData, [name]: value });
+  };
+
+  const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const posterFile = e.target.files?.[0] || null;
+    setEventData({ ...eventData, poster: posterFile });
+
+    if (posterFile) {
+      const reader = new FileReader();
+      reader.onload = () => setPosterPreview(reader.result as string);
+      reader.readAsDataURL(posterFile);
+    } else {
+      setPosterPreview(null);
+    }
   };
 
   // Handle form submission
@@ -61,13 +77,17 @@ export default function CreateEvent() {
     eventDataToSend.append("TicketPrice", eventData.ticketPrice.toString());
     eventDataToSend.append("MaxAttendees", eventData.maxAttendees.toString());
 
+    if (eventData.poster) {
+      eventDataToSend.append("Poster", eventData.poster);
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3002/events/create-event",
         eventDataToSend,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -83,7 +103,7 @@ export default function CreateEvent() {
   return (
     <div className="parent-cont">
       <div className="container">
-        <h2 className="{styles.heading}">Create Event</h2>
+        <h2>Create Event</h2>
         <div className="">
           <form onSubmit={handleSubmit} className="event-form">
             <fieldset className="{styles.fieldset}">
@@ -99,7 +119,7 @@ export default function CreateEvent() {
               )}
             </fieldset>
 
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Genre</label>
               <select
                 name="genre"
@@ -129,7 +149,7 @@ export default function CreateEvent() {
               {error.genre && <span className="error">{error.genre}</span>}
             </fieldset>
 
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Description</label>
               <textarea
                 name="description"
@@ -141,7 +161,7 @@ export default function CreateEvent() {
               )}
             </fieldset>
 
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Location</label>
               <input
                 type="text"
@@ -154,7 +174,7 @@ export default function CreateEvent() {
               )}
             </fieldset>
 
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Date and Time</label>
               <input
                 type="datetime-local"
@@ -166,8 +186,21 @@ export default function CreateEvent() {
                 <span className="error">{error.dateTime}</span>
               )}
             </fieldset>
-
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
+              <label>Event Poster</label>
+              <input
+                type="file"
+                name="poster"
+                accept="image/*"
+                onChange={handlePosterChange}
+              />
+              {posterPreview && (
+                <div>
+                  <img src={posterPreview} alt="Poster Preview" width="200" />
+                </div>
+              )}
+            </fieldset>
+            <fieldset>
               <label>Ticket Price</label>
               <input
                 type="number"
@@ -180,7 +213,7 @@ export default function CreateEvent() {
               )}
             </fieldset>
 
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Max Attendees</label>
               <input
                 type="number"
@@ -192,29 +225,7 @@ export default function CreateEvent() {
                 <span className="error">{error.maxAttendees}</span>
               )}
             </fieldset>
-
-            {/* <fieldset className={styles.fieldset}>
-            <legend>Event Image</legend>
-            <input
-              type="file"
-              name="eventImage"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            {preview && (
-              <div className={styles.preview}>
-                <img
-                  src={preview}
-                  alt="Event Preview"
-                  className={styles.image}
-                />
-              </div>
-            )}
-          </fieldset> */}
-
-            <button type="submit" className="{styles.button}">
-              Create Event
-            </button>
+            <button type="submit">Create Event</button>
           </form>
         </div>
       </div>
