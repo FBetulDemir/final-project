@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./createEvent.css";
 import axios from "axios";
 import { validateEventFormData } from "./validateEvent";
@@ -29,7 +29,10 @@ export default function CreateEvent() {
     poster: null,
   });
 
-  const coordLocation = { latitude: "5", longitude: "5" };
+  const [coordinates, setCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  }>();
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
 
@@ -57,6 +60,32 @@ export default function CreateEvent() {
     }
   };
 
+  const geocodeLocation = async (address: string) => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            address: address,
+            key: import.meta.env.VITE_GEOCODING_API_KEY,
+          },
+        }
+      );
+
+      if (response.data.status === "OK") {
+        const location = response.data.results[0].geometry.location;
+        setCoordinates({ lat: location.lat, lng: location.lng });
+        return location;
+      } else {
+        throw new Error("Geocoding failed. Check the address.");
+      }
+    } catch (error) {
+      console.error("Error in geocoding:", error);
+      alert("Failed to fetch location. Please check the address.");
+      throw error;
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,12 +96,15 @@ export default function CreateEvent() {
       return;
     }
 
+    const { lat, lng } = await geocodeLocation(eventData.location);
+    console.log(lat, lng);
+
     const eventDataToSend = new FormData();
     eventDataToSend.append("EventName", eventData.eventName);
     eventDataToSend.append("Genre", eventData.genre);
     eventDataToSend.append("Description", eventData.description);
-    eventDataToSend.append("Latitude", coordLocation.latitude);
-    eventDataToSend.append("Longitude", coordLocation.longitude);
+    eventDataToSend.append("Latitude", lat);
+    eventDataToSend.append("Longitude", lng);
     eventDataToSend.append("DateTime", eventData.dateTime);
     eventDataToSend.append("TicketPrice", eventData.ticketPrice.toString());
     eventDataToSend.append("MaxAttendees", eventData.maxAttendees.toString());
