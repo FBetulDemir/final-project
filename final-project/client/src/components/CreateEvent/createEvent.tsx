@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./createEvent.css";
 import axios from "axios";
 import { validateEventFormData } from "./validateEvent";
