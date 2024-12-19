@@ -1,0 +1,112 @@
+#root {
+  --clr-primary-400: #fc5edf;
+  --clr-primary-500: #25006f;
+
+  --clr-linear-100: linear-gradient(
+    45deg,
+    var(--clr-primary-400),
+    var(--clr-primary-500)
+  );
+  --clr-linear-200: linear-gradient(
+    45deg,
+    var(--clr-primary-400),
+    var(--clr-primary-500)
+  );
+}
+
+.parent-cont {
+  display: flex;
+  margin: 2rem auto;
+  justify-content: space-around;
+  align-items: center;
+}
+.container {
+  text-align: start;
+}
+.event-form {
+  gap: 15px;
+  border-radius: 8px;
+  max-width: 400px;
+}
+fieldset {
+  border: none;
+}
+
+.event-form label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.event-form input,
+.event-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.event-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+.event-form select:focus {
+  outline: none;
+  border-color: var(--clr-primary-400);
+  box-shadow: 0 0 5px var(--clr-primary-500);
+}
+.event-form select option:hover {
+  outline: 2rem;
+  background-color: #fc5edf;
+  box-shadow: 0 0 5px var(--clr-primary-500);
+}
+
+.event-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.event-form button {
+  padding: 12px 20px;
+  background: var(--clr-primary-400);
+  color: white;
+  height: 3rem;
+  min-width: 9rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 1s ease, transform 0.5s ease;
+}
+
+.event-form button:hover {
+  background: var(--clr-linear-200);
+  transform: scale(1.02);
+}
+
+.event-form button:active {
+  background-color: linear-gradient(
+    45deg,
+    var(--clr-primary-400),
+    var(--clr-primary-500)
+  );
+  background-color: #004494;
+}
+.error {
+  color: red;
+  font-size: 0.9rem;
+}
