@@ -1,5 +1,5 @@
 // utils/validateForm.ts
-import { FormData } from '../pages/Register';
+import { FormData } from '../Register/Register';
 
 export const validateField = (fieldName: keyof FormData, formData: FormData) => {
     let error = '';
