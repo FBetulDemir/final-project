@@ -1,20 +1,13 @@
-import { useState } from "react";
-import "./createEvent.css";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { validateEventFormData } from "./validateEvent";
+import "../createEvent.css";
+import { validateEventFormData } from "../validateEvent";
+import { EventFormData } from "../createEvent.tsx";
 
-export interface EventFormData {
-  eventName: string;
-  genre: string;
-  description: string;
-  location: string;
-  dateTime: Date;
-  ticketPrice: number;
-  maxAttendees: number;
-  poster: File | null;
-}
+export default function UpdateEvent() {
+  const { id } = useParams<{ id: string }>();
 
-export default function CreateEvent() {
   const datetimeString = "yyyy-MM-ddThh:mm:ssZ";
   const dateObject = new Date(datetimeString);
 
@@ -28,38 +21,10 @@ export default function CreateEvent() {
     maxAttendees: 0,
     poster: null,
   });
-
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
   }>();
-  const [error, setError] = useState<{ [key: string]: string }>({});
-  const [posterPreview, setPosterPreview] = useState<string | null>(null);
-
-  // Handle input changes
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    // console.log(`Field: ${name}, Value: ${value}`);
-    setEventData({ ...eventData, [name]: value });
-  };
-
-  const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const posterFile = e.target.files?.[0] || null;
-    setEventData({ ...eventData, poster: posterFile });
-
-    if (posterFile) {
-      const reader = new FileReader();
-      reader.onload = () => setPosterPreview(reader.result as string);
-      reader.readAsDataURL(posterFile);
-    } else {
-      setPosterPreview(null);
-    }
-  };
-
   const geocodeLocation = async (address: string) => {
     try {
       const response = await axios.get(
@@ -86,7 +51,56 @@ export default function CreateEvent() {
     }
   };
 
-  // Handle form submission
+  const [posterPreview, setPosterPreview] = useState<string | null>(null);
+  const [error, setError] = useState<{ [key: string]: string }>({});
+
+  // Fetch event data when the component loads
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`http://localhost:3002/events/get-event/${id}`)
+        .then((response) => {
+          const event = response.data;
+          setEventData({
+            eventName: event.EventName,
+            genre: event.Genre,
+            description: event.Description,
+            location: event.Location,
+            dateTime: new Date(event.DateTime).toISOString().slice(0, 16),
+            ticketPrice: event.TicketPrice,
+            maxAttendees: event.MaxAttendees,
+            poster: eventData.poster,
+          });
+          setPosterPreview(event.Poster);
+        })
+        .catch((error) => {
+          console.error("Error fetching event data:", error);
+        });
+    }
+  }, [id]);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setEventData({ ...eventData, [name]: value });
+  };
+
+  const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const posterFile = e.target.files?.[0] || null;
+    setEventData({ ...eventData, poster: posterFile });
+
+    if (posterFile) {
+      const reader = new FileReader();
+      reader.onload = () => setPosterPreview(reader.result as string);
+      reader.readAsDataURL(posterFile);
+    } else {
+      setPosterPreview(null);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -114,9 +128,13 @@ export default function CreateEvent() {
       eventDataToSend.append("Poster", eventData.poster);
     }
 
+    console.log(eventDataToSend);
+    console.log("Form submitted");
+    console.log("Event Data:", eventData);
+
     try {
-      const response = await axios.post(
-        "http://localhost:3002/events/create-event",
+      const response = await axios.put(
+        `http://localhost:3002/events/update-event/${id}`,
         eventDataToSend,
         {
           headers: {
@@ -124,19 +142,19 @@ export default function CreateEvent() {
           },
         }
       );
-
-      console.log("Event created successfully:", response.data);
-      alert("Event created successfully!");
+      console.log("This is eventdatato send", eventDataToSend);
+      console.log("Event updated successfully:", response.data);
+      alert("Event updated successfully!");
     } catch (error) {
-      console.error("Error creating event:");
-      alert("Failed to create event.");
+      console.error("Error updating event:", error);
+      alert("Failed to update event.");
     }
   };
 
   return (
     <div className="parent-cont">
       <div className="container">
-        <h2>Create Event</h2>
+        <h2>Update Event</h2>
         <div className="">
           <form onSubmit={handleSubmit} className="event-form">
             <fieldset className="{styles.fieldset}">
@@ -258,7 +276,7 @@ export default function CreateEvent() {
                 <span className="error">{error.maxAttendees}</span>
               )}
             </fieldset>
-            <button type="submit">Create Event</button>
+            <button type="submit">Update Event</button>
           </form>
         </div>
       </div>

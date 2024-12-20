@@ -44,6 +44,7 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
     EventName,
     Genre,
     Description,
+    Location,
     Latitude,
     Longitude,
     DateTime,
@@ -56,6 +57,7 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
   if (
     !EventName ||
     !Genre ||
+    !Location ||
     !Latitude ||
     !Longitude ||
     !DateTime ||
@@ -80,6 +82,7 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
       EventName,
       Genre,
       Description,
+      Location,
       Latitude,
       Longitude,
       DateTime,
@@ -96,6 +99,76 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
     } else {
       res.status(500).send("Error creating event");
     }
+  }
+});
+
+router.get("/get-events", async (req, res) => {
+  try {
+    const events = await db.Event.find();
+    res.json(events);
+  } catch (err) {
+    res.status(500).send("Error retrieving events");
+  }
+});
+
+router.get("/get-event/:id", async (req, res) => {
+  const { id } = req.params;
+  const event = await db.Event.findById(id);
+
+  if (!event) {
+    return res.status(404).send({ error: "Event not found" });
+  }
+
+  res.send(event);
+});
+
+router.put("/update-event/:id", async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+  console.log(updates);
+  console.log("id ", id);
+
+  try {
+    const updatedEvent = await db.Event.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedEvent) {
+      return res.status(404).send("Event not found");
+    }
+    res.json(updatedEvent);
+  } catch (err) {
+    res.status(500).send("Error updating event");
+  }
+});
+
+router.get("/genre/:genre", async (req, res) => {
+  const { genre } = req.params;
+
+  try {
+    const events = await db.Event.find({ Genre: genre }).sort({ Genre: 1 }); // Ascending order
+    if (events.length === 0) {
+      return res
+        .status(404)
+        .json({ message: `No ${genre} events were found!` });
+    }
+    res.json(events);
+  } catch (err) {
+    res.status(500).send("Error retrieving");
+  }
+});
+
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedEvent = await db.Event.findByIdAndDelete(id);
+    if (!deletedEvent) {
+      return res.status(404).send("Event not found");
+    }
+    res.json(deletedEvent);
+  } catch (err) {
+    res.status(500).send("Error deleting event");
   }
 });
 
