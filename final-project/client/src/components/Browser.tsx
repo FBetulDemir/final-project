@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Asegúrate de tener axios importado
+import React, { useState, useEffect } from 'react';  // Importar useState y useEffect
+import axios from 'axios';
 import './Browser.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -7,21 +7,24 @@ const Browser = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [concerts, setConcerts] = useState<any[]>([]);
 
-    // Fetch concerts from the backend
     useEffect(() => {
         // Llamada a la API para obtener los conciertos
         axios.get('/api/concerts')
             .then((response) => {
-                // Asumiendo que la respuesta es un array de conciertos
-                setConcerts(response.data);
+                console.log('API response:', response);
+                if (Array.isArray(response.data)) {
+                    setConcerts(response.data);
+                } else {
+                    console.error('Expected an array, but received:', response.data);
+                }
             })
             .catch((error) => {
-                console.error("There was an error fetching the concerts:", error);
+                console.log('There was an error fetching the concerts:');
+                console.log(JSON.stringify(error, null, 2));  // Formatea el error para facilitar la lectura
             });
     }, []);  // El array vacío [] asegura que la llamada se haga solo una vez al cargar el componente.
 
     const handleSearch = () => {
-        // Implementar la lógica de búsqueda aquí
         console.log('Searching for:', searchQuery);
     };
 
@@ -65,41 +68,6 @@ const Browser = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-
-                {/* Concerts Table */}
-                <div className="table-responsive mt-5">
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Artist Name</th>
-                                <th scope="col">Venue</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {[1, 2].map((item) => (
-                                <tr key={item}>
-                                    <td>
-                                        <img
-                                            src="https://via.placeholder.com/50"
-                                            alt="Placeholder"
-                                            className="me-2 rounded"
-                                        />
-                                        Artist Name
-                                    </td>
-                                    <td>Lorem Ipsum Hall</td>
-                                    <td>Lorem Ipsum street 35</td>
-                                    <td>01/01 - 0000</td>
-                                    <td>
-                                        <button className="btn btn-primary btn-sm">View Details</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
