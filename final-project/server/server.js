@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import BrowserController from 'BrowserController';
+import BrowserController from './BrowserController';
+
 import cors from 'cors';
 
 dotenv.config(); // Cargar las variables de entorno del archivo .env
