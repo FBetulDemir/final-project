@@ -5,7 +5,6 @@ import Register from './Register/Register';
 import Login from './Login/Login';
 import Browser from './components/Browser';
 import Event from './components/CreateEvent/createEvent.tsx';
-
 const App = () => {
   return (
     <Router>
