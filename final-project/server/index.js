@@ -12,6 +12,8 @@ import BrowserController from './BrowserController.js';
 import db from './db.js';
 import authenticate from './middleware/auth-middleware.js';
 
+db.connectDB()
+
 // Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -45,7 +47,7 @@ const upload = multer({ storage: storage });
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // Especificar el origen permitido
+  origin: 'http://localhost:3002', // Especificar el origen permitido
 }));
 app.use('/uploads', express.static('uploads'));
 
