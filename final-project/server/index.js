@@ -1,35 +1,42 @@
 import express from 'express';
-import db from './db.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import authenticate from './middleware/auth-middleware.js'; 
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import multer from 'multer';
+import BrowserController from './BrowserController.js';
+import db from './db.js';
+import authenticate from './middleware/auth-middleware.js';
 
-// Get the current directory path using import.meta.url
+// Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const app = express();
+const port = process.env.PORT || 3002;
 
-// Database connection
-db.connectDB();
+// Conexión a la base de datos
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error.message));
 
-// Set up multer storage configuration
+// Configuración de multer para subir archivos
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // specify the directory where uploaded files will be stored
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)); // Generate unique filename
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
@@ -38,26 +45,27 @@ const upload = multer({ storage: storage });
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',  // Specify the allowed origin
+  origin: 'http://localhost:5173', // Especificar el origen permitido
 }));
+app.use('/uploads', express.static('uploads'));
 
-// Register endpoint with profile picture upload
+// Rutas del controlador Browser
+app.use('/api', BrowserController);
+
+// Endpoint para registrar usuarios con carga de imagen de perfil
 app.post('/api/register', upload.single('ProfilePicture'), async (req, res) => {
   const { Username, Password, Email, UserType, Latitude, Longitude } = req.body;
-  const profilePicture = req.file;  // The uploaded file will be available here
+  const profilePicture = req.file;
 
   try {
-    // Check if the user already exists by Username or Email
     const existingUser = await db.User.findOne({ $or: [{ Username }, { Email }] });
     if (existingUser) {
       return res.status(400).json({ message: 'Username or Email already in use' });
     }
 
-    // Hash password using bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(Password, salt);
 
-    // Create new user with profile picture path or URL
     const newUser = new db.User({
       UserId: new mongoose.Types.ObjectId(),
       Username,
@@ -66,29 +74,26 @@ app.post('/api/register', upload.single('ProfilePicture'), async (req, res) => {
       UserType: UserType || 'Regular',
       Latitude,
       Longitude,
-      ProfilePicture: profilePicture ? `/uploads/${profilePicture.filename}` : null,  // Store the file path in DB
+      ProfilePicture: profilePicture ? `/uploads/${profilePicture.filename}` : null,
     });
 
-    // Save the user to the database
     await newUser.save();
 
-    // Generate JWT token
     const token = jwt.sign(
       { userId: newUser.UserId, username: newUser.Username },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // Respond with success message and the user info (excluding the password)
     res.status(201).json({
       message: 'User registered successfully',
       user: {
         UserId: newUser.UserId,
         Username: newUser.Username,
         Email: newUser.Email,
-        profilePictureUrl: newUser.profilePicture,  // Send the image URL in the response
+        profilePictureUrl: newUser.ProfilePicture,
       },
-      token,  // Include token for authentication
+      token,
     });
   } catch (error) {
     console.error(error);
@@ -96,17 +101,17 @@ app.post('/api/register', upload.single('ProfilePicture'), async (req, res) => {
   }
 });
 
-// Example of a protected route using authentication middleware
+// Ruta protegida de ejemplo
 app.get('/api/protected', authenticate, (req, res) => {
   res.json({ message: 'This is a protected route', user: req.user });
 });
 
-// Basic route to check if API is running
-app.get('/', (req, res) => res.send('API is running...'));
+// Ruta básica para verificar que el servidor está funcionando
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
 
-// Serve static files from the 'uploads' folder
-app.use('/uploads', express.static('uploads'));
-
-// Start the server
-const PORT = 3002;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
