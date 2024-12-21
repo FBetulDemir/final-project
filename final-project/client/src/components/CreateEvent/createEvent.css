@@ -15,10 +15,11 @@
 }
 
 .parent-cont {
-  display: flex;
+  display: grid;
   margin: 2rem auto;
-  justify-content: space-around;
-  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  align-content: center;
 }
 .container {
   text-align: start;
@@ -112,4 +113,11 @@ fieldset {
 .error {
   color: red;
   font-size: 0.9rem;
+}
+
+.map-cont {
+  grid-column: 2 / 3;
+  position: relative;
+  padding: 5px;
+  padding-top: 5rem;
 }
