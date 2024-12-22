@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';  // Importar useState y useEffect
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Browser.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,40 +20,45 @@ const Browser = () => {
             })
             .catch((error) => {
                 console.log('There was an error fetching the concerts:');
-                console.log(JSON.stringify(error, null, 2));  // Formatea el error para facilitar la lectura
+                console.log(JSON.stringify(error, null, 2)); // Formatea el error para facilitar la lectura
             });
-    }, []);  // El array vacío [] asegura que la llamada se haga solo una vez al cargar el componente.
+    }, []);
 
     const handleSearch = () => {
         console.log('Searching for:', searchQuery);
     };
 
     return (
-        <div>
-            {/* Header */}
-            <div className="gradient-header w-100"></div>
+        <div className="browser-container">
+            {/* Línea superior */}
+            <div className="gradient-header"></div>
 
+            {/* Contenido principal */}
             <div className="container mt-4 text-center">
-                {/* Title */}
+                {/* Título */}
                 <h1 className="fw-bold">Browse All Concerts</h1>
 
-                {/* Search Section */}
+                {/* Sección de búsqueda */}
                 <div className="search-section mt-4">
                     <div className="input-group mb-3 w-50 mx-auto">
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control rounded-search"
                             placeholder="Search"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className="btn btn-outline-secondary" type="button" onClick={handleSearch}>
+                        <button
+                            className="custom-btn"
+                            type="button"
+                            onClick={handleSearch}
+                        >
                             Search
                         </button>
                     </div>
                 </div>
 
-                {/* Near You Section */}
+                {/* Sección "Near You" */}
                 <h2 className="mt-5">Near You</h2>
                 <div className="row mt-3 near-you">
                     {concerts.map((concert, index) => (
@@ -75,3 +80,5 @@ const Browser = () => {
 };
 
 export default Browser;
+
+
