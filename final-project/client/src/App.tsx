@@ -1,11 +1,13 @@
+
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Browser from './components/Browser';
-import Event from './components/CreateEvent/createEvent.tsx';
-import Ticket from './components/ModalTicket/Ticket.tsx';
+import Event from './components/CreateEvent/createEvent';
+import Ticket from './components/ModalTicket/Ticket';
+
 const App = () => {
   return (
     <Router>
@@ -20,5 +22,6 @@ const App = () => {
     </Router>
   );
 };
+
 
 export default App;
