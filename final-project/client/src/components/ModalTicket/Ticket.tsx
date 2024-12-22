@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import GoogleMap from '../GoogleMap/GoogleMap';
+//import GoogleMap from '../GoogleMap/GoogleMap';
 import Modal from './Modal';
 import './Ticket.css';
 import { useEffect, useState } from 'react';
@@ -14,9 +14,9 @@ interface EventData {
   ticketPrice: number;
   maxAttendees: number;
 }
-interface GoogleMapProps {
-  coordinates: { lat: number; lng: number } | null;
-}
+// interface GoogleMapProps {
+//   coordinates: { lat: number; lng: number } | null;
+// }
 function Ticket() {
   //* It will connect to Music Genre (frame 4)
   const { id } = useParams<{ id: string }>();
@@ -44,7 +44,9 @@ function Ticket() {
       <button onClick={() => setOpen(true)}>Modal</button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <div className='container'>
-          {/* <GoogleMap coordinates={coordinate?.coordinates || null} /> */}
+          <div className='map-co'>
+            {/* <GoogleMap coordinates={coordinate?.coordinates || null} /> */}
+          </div>
           <p className='description'>
             <h5>Description</h5>
             <p>{event?.description}</p>
