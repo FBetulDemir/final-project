@@ -1,0 +1,49 @@
+.main-banner {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    margin-bottom: 4em;
+}
+
+.banner-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.banner-image {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.banner-overlay {
+    position: absolute;
+    bottom: 2em;
+    left: 2em;
+    background: rgba(11, 11, 11, 0.6);
+    color: #fff;
+    padding: 1em 2em;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.banner-overlay h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #fff;
+}
+
+.banner-overlay p {
+    margin: 5px 0;
+    color: #fff;
+}

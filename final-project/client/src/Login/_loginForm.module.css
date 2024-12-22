@@ -39,6 +39,7 @@
           flex-direction: column;
   width: 50%;
   padding: 0;
+  gap: 10px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -70,14 +71,17 @@ input[type=file] {
   font-size: 0.9rem;
 }
 
-legend {
+.legend {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Smaller font size */
+  background-color: #fff; /* Ensure the background covers the text */
+  display: inline; /* Makes it behave like regular text */
+  max-width: 13%;
+  text-wrap: nowrap;
   position: absolute;
-  top: -10px;
-  left: 10px;
-  background-color: #fff;
-  padding: 0 5px;
+  top: -19px;
+  left: 13px;
+  max-height: 17%;
 }
 
 input, select {
@@ -86,7 +90,7 @@ input, select {
   margin-top: 5px;
 }
 
-button {
+.button {
   padding: 10px 20px;
   background-color: #322191;
   width: 40%;
