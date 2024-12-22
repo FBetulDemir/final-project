@@ -10,9 +10,9 @@ const GoogleMap = () => {
         apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}
         language='en'
       >
-        <div style={{ height: '50vh', width: '100%' }}>
+        <div style={{ height: '40vh', width: '100%' }}>
           <Map
-            zoom={8}
+            zoom={9}
             center={position}
             mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
           >

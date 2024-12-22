@@ -1,41 +1,71 @@
+import { useParams } from 'react-router-dom';
+import GoogleMap from '../GoogleMap/GoogleMap';
 import Modal from './Modal';
 import './Ticket.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+interface EventData {
+  _id: string;
+  eventName: string;
+  genre: string;
+  description: string;
+  location: string;
+  dateTime: Date;
+  ticketPrice: number;
+  maxAttendees: number;
+}
+interface GoogleMapProps {
+  coordinates: { lat: number; lng: number } | null;
+}
 function Ticket() {
   //* It will connect to Music Genre (frame 4)
+  const { id } = useParams<{ id: string }>();
   const [open, setOpen] = useState<boolean>(false);
-
+  //const [loading, setLoading] = useState<boolean>(true);
+  const [event, setEvent] = useState<EventData | null>(null);
+  // const [coordinate, setCoordinate] = useState<GoogleMapProps | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/tickets/events/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch event data');
+        }
+        const data: EventData = await response.json();
+        setEvent(data);
+      } catch (error) {
+        console.error('Error message:', error);
+      }
+    };
+    fetchData();
+  }, [id]);
   return (
     <>
       <button onClick={() => setOpen(true)}>Modal</button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <div className='container'>
-          <h5>Google map here</h5>
-          <p>Description</p>
+          {/* <GoogleMap coordinates={coordinate?.coordinates || null} /> */}
           <p className='description'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse
-            debitis eligendi tempore quaerat facilis possimus error, est
-            officiis quas numquam tenetur tempora repellendus minus, ipsum autem
-            iusto magnam aspernatur animi.
+            <h5>Description</h5>
+            <p>{event?.description}</p>
           </p>
           <div className='container-info'>
             <div className='container-date-attendants'>
               <div className='container-info-attendants'>
                 <h5>Attendants</h5>
-                <p>1000+</p>
+                <p>{event?.maxAttendees}</p>
               </div>
               <div className='container-info-date'>
                 <h5>Date</h5>
-                <p>01/01 - 0000</p>
+                {/* <p>{new Date(event?.dateTime).toLocaleDateString()}</p> */}
               </div>
             </div>
             <div className='container-info-location'>
               <h5>Location</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              <p>{event?.location}</p>
             </div>
           </div>
-          <h2>Ticket Price: 299$</h2>
+          <h2>Ticket Price: {event?.ticketPrice}</h2>
           <button className='buy-ticket-btn'>Buy Ticket</button>
         </div>
       </Modal>

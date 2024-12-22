@@ -5,6 +5,7 @@ import Register from './Register/Register';
 import Login from './Login/Login';
 import Browser from './components/Browser';
 import Event from './components/CreateEvent/createEvent.tsx';
+import Ticket from './components/ModalTicket/Ticket.tsx';
 const App = () => {
   return (
     <Router>
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/events/create' element={<Event />} />
+        <Route path='/ticket/events/:id' element={<Ticket />} />
       </Routes>
     </Router>
   );
