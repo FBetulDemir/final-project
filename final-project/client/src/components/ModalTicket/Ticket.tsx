@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+
 //import GoogleMap from '../GoogleMap/GoogleMap';
 import Modal from './Modal';
 import './Ticket.css';
@@ -23,16 +24,20 @@ function Ticket() {
   const [open, setOpen] = useState<boolean>(false);
   //const [loading, setLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<EventData | null>(null);
-  // const [coordinate, setCoordinate] = useState<GoogleMapProps | null>(null);
+  //const [coordinate, setCoordinate] = useState<GoogleMapProps | null>(null);
   useEffect(() => {
     const fetchData = async () => {
+      //67694fe745a51bfff768c19f
       try {
-        const response = await fetch(`/tickets/events/${id}`);
+        const response = await fetch(
+          `http://localhost:3002/events/get-event/${id}`
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch event data');
         }
         const data: EventData = await response.json();
         setEvent(data);
+        console.log(data);
       } catch (error) {
         console.error('Error message:', error);
       }
@@ -43,14 +48,12 @@ function Ticket() {
     <>
       <button onClick={() => setOpen(true)}>Modal</button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <div className='container'>
-          <div className='map-co'>
-            {/* <GoogleMap coordinates={coordinate?.coordinates || null} /> */}
-          </div>
-          <p className='description'>
+        <div className='ticket-container'>
+          <div className='map-co'>{/* <GoogleMap /> */}</div>
+          <div className='description'>
             <h5>Description</h5>
             <p>{event?.description}</p>
-          </p>
+          </div>
           <div className='container-info'>
             <div className='container-date-attendants'>
               <div className='container-info-attendants'>

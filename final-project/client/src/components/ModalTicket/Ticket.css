@@ -1,8 +1,9 @@
-.container {
+.ticket-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 .description {
   width: 100%;
@@ -15,9 +16,6 @@
   justify-content: center;
 }
 
-.container-info-location {
-  width: 200px;
-}
 .buy-ticket-btn {
   background-color: #a4a4a4;
   padding: 10 15px;

@@ -23,7 +23,7 @@ const App = () => {
         <Route path='/events/create' element={<CreateEvent />} />
         <Route path='/events/update/:id' element={<UpdateEvent />} />
         {/* <Route path="/map" element={<GoogleMap />} /> */}
-        <Route path='/ticket/events/:id' element={<Ticket />} />
+        <Route path='/events/get-event/:id' element={<Ticket />} />
       </Routes>
     </Router>
   );
