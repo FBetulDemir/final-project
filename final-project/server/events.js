@@ -1,10 +1,10 @@
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import jwt from "jsonwebtoken";
-import db from "./db.js";
-import multer from "multer";
-import path from "path";
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
+import db from './db.js';
+import multer from 'multer';
+import path from 'path';
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -30,7 +30,7 @@ router.use(bodyParser.json());
 // };
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/posters");
+    cb(null, 'uploads/posters');
   },
   filename: (req, file, cb) => {
     cb(null, `Poster_${Date.now()}${file.originalname}`);
@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/create-event", upload.single("Poster"), async (req, res) => {
+router.post('/create-event', upload.single('Poster'), async (req, res) => {
   const {
     EventName,
     Genre,
@@ -64,7 +64,7 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
     !TicketPrice ||
     !MaxAttendees
   ) {
-    return res.status(400).send("Missing required fields");
+    return res.status(400).send('Missing required fields');
   }
 
   try {
@@ -78,7 +78,7 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
 
     const newEvent = new db.Event({
       EventId: new mongoose.Types.ObjectId(),
-      MusicianId: "loggedInUser._id", // Associate the event with the logged-in musician
+      MusicianId: 'loggedInUser._id', // Associate the event with the logged-in musician
       EventName,
       Genre,
       Description,
@@ -95,38 +95,38 @@ router.post("/create-event", upload.single("Poster"), async (req, res) => {
     res.status(201).json(newEvent);
   } catch (err) {
     if (err.code === 11000) {
-      res.status(400).send("Duplicate Event Id");
+      res.status(400).send('Duplicate Event Id');
     } else {
-      res.status(500).send("Error creating event");
+      res.status(500).send('Error creating event');
     }
   }
 });
 
-router.get("/get-events", async (req, res) => {
+router.get('/get-events', async (req, res) => {
   try {
     const events = await db.Event.find();
     res.json(events);
   } catch (err) {
-    res.status(500).send("Error retrieving events");
+    res.status(500).send('Error retrieving events');
   }
 });
 
-router.get("/get-event/:id", async (req, res) => {
+router.get('/get-event/:id', async (req, res) => {
   const { id } = req.params;
   const event = await db.Event.findById(id);
 
   if (!event) {
-    return res.status(404).send({ error: "Event not found" });
+    return res.status(404).send({ error: 'Event not found' });
   }
 
   res.send(event);
 });
 
-router.put("/update-event/:id", async (req, res) => {
+router.put('/update-event/:id', async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
   console.log(updates);
-  console.log("id ", id);
+  console.log('id ', id);
 
   try {
     const updatedEvent = await db.Event.findByIdAndUpdate(id, updates, {
@@ -134,15 +134,15 @@ router.put("/update-event/:id", async (req, res) => {
       runValidators: true,
     });
     if (!updatedEvent) {
-      return res.status(404).send("Event not found");
+      return res.status(404).send('Event not found');
     }
     res.json(updatedEvent);
   } catch (err) {
-    res.status(500).send("Error updating event");
+    res.status(500).send('Error updating event');
   }
 });
 
-router.get("/genre/:genre", async (req, res) => {
+router.get('/genre/:genre', async (req, res) => {
   const { genre } = req.params;
 
   try {
@@ -154,21 +154,21 @@ router.get("/genre/:genre", async (req, res) => {
     }
     res.json(events);
   } catch (err) {
-    res.status(500).send("Error retrieving");
+    res.status(500).send('Error retrieving');
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const deletedEvent = await db.Event.findByIdAndDelete(id);
     if (!deletedEvent) {
-      return res.status(404).send("Event not found");
+      return res.status(404).send('Event not found');
     }
     res.json(deletedEvent);
   } catch (err) {
-    res.status(500).send("Error deleting event");
+    res.status(500).send('Error deleting event');
   }
 });
 
