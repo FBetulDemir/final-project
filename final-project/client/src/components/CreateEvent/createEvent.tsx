@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./createEvent.css";
 import axios from "axios";
 import { validateEventFormData } from "./validateEvent";
+import GoogleMap from "../GoogleMap/GoogleMap";
 
 export interface EventFormData {
   eventName: string;
@@ -29,10 +30,54 @@ export default function CreateEvent() {
     poster: null,
   });
 
+  const cancelTokenRef = useRef<ReturnType<
+    typeof axios.CancelToken.source
+  > | null>(null);
+
+  useEffect(() => {
+    if (!eventData.location) return;
+
+    if (cancelTokenRef.current) {
+      cancelTokenRef.current.cancel("New request initiated");
+    }
+
+    const cancelTokenSource = axios.CancelToken.source();
+    cancelTokenRef.current = cancelTokenSource;
+
+    const fetchCoordinates = async () => {
+      try {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json`,
+          {
+            params: {
+              address: eventData.location,
+              key: import.meta.env.VITE_GEOCODING_API_KEY,
+            },
+            cancelToken: cancelTokenSource.token,
+          }
+        );
+
+        if (response.data.status === "OK") {
+          const location = response.data.results[0].geometry.location;
+          setCoordinates({ lat: location.lat, lng: location.lng });
+        }
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          console.error("Error in geocoding:", err);
+        }
+      }
+    };
+    fetchCoordinates();
+
+    return () => {
+      cancelTokenRef.current = null;
+    };
+  }, [eventData.location]);
+
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
-  }>();
+  }>({ lat: 0, lng: 0 });
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
 
@@ -60,13 +105,13 @@ export default function CreateEvent() {
     }
   };
 
-  const geocodeLocation = async (address: string) => {
+  const geocodeLocation = async (location: string) => {
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json`,
         {
           params: {
-            address: address,
+            address: location,
             key: import.meta.env.VITE_GEOCODING_API_KEY,
           },
         }
@@ -97,6 +142,7 @@ export default function CreateEvent() {
     }
 
     const { lat, lng } = await geocodeLocation(eventData.location);
+
     console.log(lat, lng);
 
     const eventDataToSend = new FormData();
@@ -263,9 +309,7 @@ export default function CreateEvent() {
         </div>
       </div>
       <div className="map-cont">
-        <div className="map">
-          <h1>MAP HERE</h1>
-        </div>
+        <GoogleMap coordinates={coordinates} />
       </div>
     </div>
   );
