@@ -1,28 +1,26 @@
 import React from 'react';
 import './MainEventBanner.css';
 
-interface EventData {
-    id: string;
-    name: string;
+interface MainEventBannerProps {
+    eventName: string;
     location: string;
     date: string;
-    image: string;
+    poster: string;
 }
 
-const MainEventBanner: React.FC<{ event: EventData }> = ({ event }) => {
+const MainEventBanner: React.FC<MainEventBannerProps> = ({
+    eventName,
+    location,
+    date,
+    poster,
+}) => {
     return (
-        <div className='main-banner'>
-            <div className='banner-image-container'>
-                <img
-                    src={event.image}
-                    alt={event.name}
-                    className='banner-image'
-                />
-            </div>
-            <div className='banner-overlay'>
-                <h1>{event.name}</h1>
-                <p>{event.location}</p>
-                <p>{event.date}</p>
+        <div className='main-event-banner'>
+            <img src={poster} alt={eventName} className='banner-image' />
+            <div className='banner-details'>
+                <h1>{eventName}</h1>
+                <p>{location}</p>
+                <p>{date}</p>
             </div>
         </div>
     );

@@ -1,93 +1,73 @@
-.slider-container {
+.event-slider {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 100%;
-    /* min-width: 120px; */
-    margin: 2em auto;
-    padding: 0 1em;
-    box-sizing: border-box;
 }
 
-.slider {
+.event-container {
     display: flex;
     overflow: hidden;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    max-width: 900px;
+    width: 80%;
 }
 
-.slider-card {
-    flex: 0 0 auto;
-    width: 200px;
+.event-card {
+    flex: 0 0 25%; /* Show 4 items at a time */
+    margin: 10px;
     text-align: center;
-    /* opacity: 0.5; */
-    /* transform: scale(0.9); */
-    /* transition: transform 0.3s ease, opacity 0.3s ease; */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
 }
 
-.slider-card img {
+.event-image {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.slider-card.active {
-    transform: scale(1);
-    opacity: 1;
+    border-radius: 8px;
 }
 
 .event-info {
     margin-top: 10px;
-    font-size: 14px;
-    color: #333;
 }
 
-.slider-arrow {
-    font-size: 4rem;
-    background: none;
+.event-name {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.event-date {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.arrow {
+    background: black;
+    color: white;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
+    font-size: 1.5rem;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    padding: 0 1em;
+    z-index: 1;
 }
 
-.slider-arrow.prev {
-    left: 2em;
+.left-arrow {
+    left: 10px;
 }
 
-.slider-arrow.next {
-    right: 2em;
+.right-arrow {
+    right: 10px;
 }
 
-@media (max-width: 480px) {
-    .slider-arrow {
-        font-size: 2rem;
-        top: auto;
-        bottom: 10%;
-        transform: translateY(0);
-        padding: 0;
-    }
-
-    .slider-arrow.prev {
-        left: 10%;
-    }
-
-    .slider-arrow.next {
-        right: 10%;
-    }
-
-    .slider-card {
-        width: 120px;
-    }
-
-    .event-info {
-        font-size: 12px;
-    }
+.arrow:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

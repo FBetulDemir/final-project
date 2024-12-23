@@ -7,8 +7,8 @@ const Header: React.FC = () => {
     return (
         <header className='header'>
             <div className='logo-container'>
-                <img src={Logo} alt='EventHub Logo' className='logo-image' />
-                <span className='logo-text'></span>
+                <img src={Logo} alt='ShowTime Logo' className='logo-image' />
+                <span className='logo-text'>ShowTime</span>
             </div>
             <nav>
                 <ul className='nav-links'>
@@ -17,6 +17,9 @@ const Header: React.FC = () => {
                     </li>
                     <li>
                         <Link to='/browse'>Browse Events</Link>
+                    </li>
+                    <li>
+                        <Link to='/genre'>Explore Genres</Link>
                     </li>
                     <li>
                         <Link to='/login'>Login</Link>

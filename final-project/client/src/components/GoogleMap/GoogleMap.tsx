@@ -1,8 +1,12 @@
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 
-const GoogleMap = () => {
+interface GoogleMapProps {
+  coordinates: { lat: number; lng: number };
+}
+
+const GoogleMap: React.FC<GoogleMapProps> = ({ coordinates }) => {
   //* For now I just added Malmö latitude and longitude
-  const position = { lat: Number(55.605), lng: Number(13.0038) };
+  const defaultPosition = { lat: 55.605, lng: 13.0038 };
 
   return (
     <>
@@ -10,13 +14,17 @@ const GoogleMap = () => {
         apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}
         language='en'
       >
-        <div style={{ height: '40vh', width: '100%' }}>
+        <div style={{ height: '80vh', width: '100%' }}>
           <Map
-            zoom={9}
-            center={position}
+            zoom={8}
+            center={
+              coordinates.lat !== 0 && coordinates.lng !== 0
+                ? coordinates
+                : defaultPosition
+            }
             mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
           >
-            <AdvancedMarker position={position}></AdvancedMarker>
+            <AdvancedMarker position={coordinates}></AdvancedMarker>
           </Map>
         </div>
       </APIProvider>

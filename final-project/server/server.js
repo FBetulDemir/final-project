@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import BrowserController from './BrowserController.js'; // Asegúrate de que el path sea correcto
+import browserController from './BrowserController.js'; // Asegúrate de que el path sea correcto
+import cors from 'cors'; // Import cors
 
 dotenv.config(); // Cargar las variables de entorno del archivo .env
 
@@ -9,10 +10,11 @@ const app = express();
 const port = process.env.PORT || 3002; // Usa el puerto de .env o el 3002 por defecto
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose
+    .connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
     .then(() => {
         console.log('Connected to MongoDB');
     })
@@ -21,6 +23,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     });
 
 // Middleware para parsear el cuerpo de las solicitudes
+app.use(cors()); // Use CORS middleware here
 app.use(express.json());
 
 // Rutas

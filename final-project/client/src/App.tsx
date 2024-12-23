@@ -1,27 +1,32 @@
-
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+//import Home from './pages/Home';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Browser from './components/Browser';
-import Event from './components/CreateEvent/createEvent';
+import CreateEvent from './components/CreateEvent/createEvent';
+import UpdateEvent from './components/CreateEvent/Update/updateEvent';
+import LandingPage from './components/landing-page/LandingPage';
+import GenrePage from './components/genre-page/GenrePage';
+//import GoogleMap from "./components/GoogleMap/GoogleMap";
 import Ticket from './components/ModalTicket/Ticket';
-
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home />} />
+        {/* <Route path='/' element={<Home />} /> */}
+        <Route path='/' element={<LandingPage />} />
         <Route path='/browser' element={<Browser />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/genre/:genreName' element={<GenrePage />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/events/create' element={<Event />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/events/create' element={<CreateEvent />} />
+        <Route path='/events/update/:id' element={<UpdateEvent />} />
+        {/* <Route path="/map" element={<GoogleMap />} /> */}
         <Route path='/ticket/events/:id' element={<Ticket />} />
       </Routes>
     </Router>
   );
 };
-
 
 export default App;
