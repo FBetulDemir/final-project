@@ -2,14 +2,15 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    const uri = "mongodb://localhost:27017";
+    const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/showtime";
+    if (!uri) throw new Error("MongoDB URI is not defined");
 
     await mongoose.connect(uri);
 
     console.log("MongoDB connected successfully");
   } catch (error) {
-    console.error("Error connecting to MongoDB", error);
-    process.exit(1); // Exit the process with failure
+    console.error("Error connecting to MongoDB:", error.message);
+    process.exit(1);
   }
 };
 
@@ -104,6 +105,10 @@ const eventSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    Location: {
+      type: String,
+      required: true,
+    },
     Latitude: {
       type: Number,
       required: true,
@@ -168,8 +173,8 @@ const Event = mongoose.model("Event", eventSchema);
 const User = mongoose.model("User", userSchema);
 
 export default {
+  connectDB,
   Event,
   User,
   Ticket,
-  connectDB,
 };
