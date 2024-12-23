@@ -1,0 +1,39 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px #a4a4a4;
+  padding: 10px;
+  max-width: 100%;
+  width: 500px;
+  height: 95%;
+}
+.x-btn {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  padding: 5px;
+  width: 35px;
+  border: 2px solid #9f9e9e;
+  border-radius: 10px;
+  color: #a4a4a4;
+  background-color: #fff;
+  transition: 0.8s ease;
+}
+.x-btn:hover {
+  background-color: #cfcfcf;
+  color: #000;
+}
