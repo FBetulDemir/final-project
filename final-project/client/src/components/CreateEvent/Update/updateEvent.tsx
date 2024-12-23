@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../createEvent.css";
 import { validateEventFormData } from "../validateEvent";
-import { EventFormData } from "../createEvent.tsx";
+import { EventFormData } from "../createEvent";
 
 export default function UpdateEvent() {
   const { id } = useParams<{ id: string }>();
@@ -112,37 +112,25 @@ export default function UpdateEvent() {
 
     const { lat, lng } = await geocodeLocation(eventData.location);
     console.log(lat, lng);
+    // console.log("Event Data:", eventData);
 
-    const eventDataToSend = new FormData();
-    eventDataToSend.append("EventName", eventData.eventName);
-    eventDataToSend.append("Genre", eventData.genre);
-    eventDataToSend.append("Description", eventData.description);
-    eventDataToSend.append("Location", eventData.location);
-    eventDataToSend.append("Latitude", lat);
-    eventDataToSend.append("Longitude", lng);
-    eventDataToSend.append("DateTime", eventData.dateTime);
-    eventDataToSend.append("TicketPrice", eventData.ticketPrice.toString());
-    eventDataToSend.append("MaxAttendees", eventData.maxAttendees.toString());
+    // const eventDataToSend = new FormData;
 
-    if (eventData.poster) {
-      eventDataToSend.append("Poster", eventData.poster);
-    }
-
-    console.log(eventDataToSend);
+    // console.log(eventDataToSend);
     console.log("Form submitted");
     console.log("Event Data:", eventData);
 
     try {
       const response = await axios.put(
         `http://localhost:3002/events/update-event/${id}`,
-        eventDataToSend,
+        eventData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
       );
-      console.log("This is eventdatato send", eventDataToSend);
+      // console.log("This is eventdatato send", eventDataToSend);
       console.log("Event updated successfully:", response.data);
       alert("Event updated successfully!");
     } catch (error) {

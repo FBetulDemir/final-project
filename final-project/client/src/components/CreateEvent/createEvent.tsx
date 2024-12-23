@@ -159,7 +159,7 @@ export default function CreateEvent() {
     if (eventData.poster) {
       eventDataToSend.append("Poster", eventData.poster);
     }
-
+    console.log(eventDataToSend);
     try {
       const response = await axios.post(
         "http://localhost:3002/events/create-event",
@@ -185,7 +185,7 @@ export default function CreateEvent() {
         <h2>Create Event</h2>
         <div className="">
           <form onSubmit={handleSubmit} className="event-form">
-            <fieldset className="{styles.fieldset}">
+            <fieldset>
               <label>Event Name</label>
               <input
                 type="text"
