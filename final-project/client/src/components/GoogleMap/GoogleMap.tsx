@@ -1,4 +1,4 @@
-import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 
 interface GoogleMapProps {
   coordinates: { lat: number; lng: number };
@@ -12,9 +12,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ coordinates }) => {
     <>
       <APIProvider
         apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}
-        language="en"
+        language='en'
       >
-        <div style={{ height: "80vh", width: "100%" }}>
+        <div style={{ height: '80vh', width: '100%' }}>
           <Map
             zoom={8}
             center={

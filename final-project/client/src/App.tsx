@@ -8,6 +8,7 @@ import CreateEvent from './components/CreateEvent/createEvent';
 import UpdateEvent from './components/CreateEvent/Update/updateEvent';
 import LandingPage from './components/landing-page/LandingPage';
 import GenrePage from './components/genre-page/GenrePage';
+import MusicGenre from './components/MusicGenre/MusicGenre';
 //import GoogleMap from "./components/GoogleMap/GoogleMap";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/events/create' element={<CreateEvent />} />
         <Route path='/events/update/:id' element={<UpdateEvent />} />
+        <Route path='/events/genre/:genre' element={<MusicGenre />} />
         {/* <Route path="/map" element={<GoogleMap />} /> */}
       </Routes>
     </Router>
