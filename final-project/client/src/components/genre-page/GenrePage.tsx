@@ -3,6 +3,21 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './GenrePage.css';
 import Header from '../Header';
 
+const genres = [
+    { name: 'Pop', color: '#FF6F61' },
+    { name: 'Rock', color: '#333333' },
+    { name: 'Hip-Hop', color: '#FFD700' },
+    { name: 'Jazz', color: '#6A5ACD' },
+    { name: 'Classical', color: '#8A2BE2' },
+    { name: 'Country', color: '#D2B48C' },
+    { name: 'Electronic', color: '#32CD32' },
+    { name: 'Reggae', color: '#FF69B4' },
+    { name: 'Blues', color: '#0000FF' },
+    { name: 'Folk', color: '#A0522D' },
+    { name: 'R&B', color: '#ADD8E6' },
+    { name: 'Metal', color: '#000000' },
+];
+
 interface Event {
     id: string;
     name: string;
@@ -14,51 +29,57 @@ interface Event {
 const GenrePage: React.FC = () => {
     const { genreName } = useParams<{ genreName: string }>();
     const [events, setEvents] = useState<Event[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(
-                    `http://localhost:5000/api/events?countryCode=US&segmentId=KZFzniwnSyZfZ7v7nJ&genre=${genreName}`
+    const fetchEventsByGenre = async (genre: string) => {
+        setLoading(true);
+        try {
+            const response = await fetch(
+                `http://localhost:3002/api/events?genre=${genre}`
+            );
+            if (!response.ok) {
+                throw new Error(
+                    `Error fetching events: ${response.statusText}`
                 );
-
-                if (!response.ok) {
-                    throw new Error(
-                        `Error: ${response.status} ${response.statusText}`
-                    );
-                }
-
-                const data = await response.json();
-                const formattedEvents = data.map((event: any) => ({
-                    id: event.id,
-                    name: event.name,
-                    location:
-                        event._embedded?.venues[0]?.name || 'Unknown Location',
-                    date: event.dates?.start?.localDate || 'Unknown Date',
-                    image: event.images?.[0]?.url || '',
-                }));
-                setEvents(formattedEvents);
-            } catch (error) {
-                console.error('Error fetching event data:', error.message);
-                setEvents([]);
-            } finally {
-                setLoading(false);
             }
-        };
+            const data = await response.json();
+            setEvents(data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchEvents();
+    useEffect(() => {
+        if (genreName) {
+            fetchEventsByGenre(genreName);
+        }
     }, [genreName]);
 
+    const handleGenreClick = (genre: string) => {
+        navigate(`/genre/${genre}`);
+    };
+
     return (
-        <div className='genre-page'>
+        <div>
             <Header />
-            <h1>{genreName} Events</h1>
+            <div className='genre-container'>
+                {genres.map((genre) => (
+                    <button
+                        key={genre.name}
+                        onClick={() => handleGenreClick(genre.name)}
+                        className='genre-button'
+                        style={{ backgroundColor: genre.color }}
+                    >
+                        {genre.name}
+                    </button>
+                ))}
+            </div>
             {loading ? (
                 <p>Loading events...</p>
-            ) : events.length > 0 ? (
+            ) : (
                 <div className='event-grid'>
                     {events.map((event) => (
                         <div key={event.id} className='event-card'>
@@ -69,12 +90,7 @@ const GenrePage: React.FC = () => {
                         </div>
                     ))}
                 </div>
-            ) : (
-                <p>No events found for this genre.</p>
             )}
-            <button className='back-button' onClick={() => navigate(-1)}>
-                Back to Genres
-            </button>
         </div>
     );
 };
