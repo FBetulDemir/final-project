@@ -45,7 +45,7 @@ function Ticket() {
   // console.log(event?.Latitude);
   // console.log(event?.Longitude);
   {
-    /* //* Added default location otherwise I */
+    /* //* Used the same default location as Google Map component  */
   }
   return (
     <>
