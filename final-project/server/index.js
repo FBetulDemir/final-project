@@ -9,16 +9,35 @@ import cors from "cors";
 import userRoutes from "./userRoutes.js";
 import eventsRouter from "./events.js";
 
-// Get the current directory path using import.meta.url
+// Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const app = express();
+const port = process.env.PORT || 3002;
 
-// Database connection
-db.connectDB();
+// Conexión a la base de datos
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error.message));
+
+// Configuración de multer para subir archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Middleware
 app.use(express.json());
@@ -30,6 +49,9 @@ app.use(
 
 app.use(userRoutes);
 
+// Ruta protegida de ejemplo
+app.get('/api/protected', authenticate, (req, res) => {
+  res.json({ message: 'This is a protected route', user: req.user });
 // Example of a protected route using authentication middleware
 app.get("/api/protected", authenticate, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });

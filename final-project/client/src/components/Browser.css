@@ -1,13 +1,89 @@
-/* Browser.css */
+/* Línea superior */
 .gradient-header {
-    background: linear-gradient(90deg, #FF0080, #8A2BE2);
-    height: 100px;
+    height: 35px;
+    width: 100%;
+    background: linear-gradient(to right, #FF00FF, #0000FF);
+    /* Colores de degradado */
 }
 
-.search-section {
-    margin-top: -50px;
+/* Contenedor principal */
+.browser-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
 }
 
-.near-you img {
-    background: #ccc;
+/* Búsqueda */
+.search-section .input-group .form-control {
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.search-section .rounded-search {
+    border-radius: 10px;
+    /* Bordes redondeados */
+    padding: 10px;
+    margin-right: 34px;
+    width: 198px;
+    height: 29px;
+}
+
+.search-section .btn {
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.custom-btn {
+    width: 59px;
+    height: 30px;
+    text-align: center;
+    background-color: rgb(184, 181, 181);
+    /* Un verde de ejemplo */
+    color: rgba(0, 0, 0, 1);
+    border-radius: 10px;
+
+}
+
+/* Tarjetas de conciertos */
+.near-you .concert-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: #fff;
+}
+
+.near-you .concert-card:hover {
+    transform: translateY(-10px);
+    background-color: #f1f1f1;
+    /* Color al pasar el cursor */
+}
+
+.near-you .concert-card img {
+    height: 150px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.near-you .concert-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.near-you .concert-info h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.near-you .concert-info p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Espaciado entre botones */
+.input-group .btn+.btn {
+    margin-left: 10px;
+    /* Espaciado entre botones */
 }
