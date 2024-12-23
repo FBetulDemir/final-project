@@ -106,6 +106,10 @@ const eventSchema = new mongoose.Schema(
             type: String,
             default: null,
         },
+        Location: {
+           type: String,
+           required: true,
+        },
         Latitude: {
             type: Number,
             required: true,
@@ -147,6 +151,7 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+
     },
     EventId: {
         type: String,
