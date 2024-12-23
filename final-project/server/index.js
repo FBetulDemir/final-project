@@ -1,24 +1,41 @@
 import express from "express";
+import mongoose from "mongoose";
 import db from "./db.js";
 import authenticate from "./middleware/auth-middleware.js";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import multer from "multer";
 import cors from "cors";
 import userRoutes from "./userRoutes.js";
 import eventsRouter from "./events.js";
 
-// Get the current directory path using import.meta.url
+// Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const app = express();
+const port = process.env.PORT || 3002;
 
-// Database connection
 db.connectDB();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Middleware
 app.use(express.json());
@@ -30,6 +47,10 @@ app.use(
 
 app.use(userRoutes);
 
+// Ruta protegida de ejemplo
+app.get("/api/protected", authenticate, (req, res) => {
+  res.json({ message: "This is a protected route", user: req.user });
+});
 // Example of a protected route using authentication middleware
 app.get("/api/protected", authenticate, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });
@@ -45,4 +66,6 @@ app.use("/events", eventsRouter);
 
 // Start the server
 const PORT = 3002;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
