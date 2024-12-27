@@ -43,6 +43,10 @@ const Ticket: React.FC = () => {
   const onClose = () => {
     navigate(-1);
   };
+  const openMessage = () => {
+    alert('Thank you very much for buying the ticket.');
+    navigate('/');
+  };
   // console.log(event?.Latitude);
   // console.log(event?.Longitude);
 
@@ -93,7 +97,15 @@ const Ticket: React.FC = () => {
             <h2 className='ticket-title'>
               Ticket Price: {event?.TicketPrice} kr
             </h2>
-            <button className='buy-ticket-btn'>Buy Ticket</button>
+
+            <button
+              type='button'
+              className='btn btn-secondary '
+              style={{ marginTop: '10px' }}
+              onClick={openMessage}
+            >
+              Buy Ticket
+            </button>
           </>
         ) : (
           <p>Loading event details</p>
