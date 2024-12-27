@@ -10,7 +10,7 @@ import LandingPage from './components/landing-page/LandingPage';
 import GenrePage from './components/genre-page/GenrePage';
 import MusicGenre from './components/MusicGenre/MusicGenre';
 //import GoogleMap from "./components/GoogleMap/GoogleMap";
-import Ticket from './components/ModalTicket/Ticket';
+import Ticket from './components/Ticket/Ticket';
 
 const App = () => {
   return (
@@ -26,7 +26,7 @@ const App = () => {
         <Route path='/events/update/:id' element={<UpdateEvent />} />
         <Route path='/events/genre/:genre' element={<MusicGenre />} />
         {/* <Route path="/map" element={<GoogleMap />} /> */}
-        <Route path='/events/get-event/:id' element={<Ticket />} />
+        <Route path='/ticket/:id' element={<Ticket />} />
       </Routes>
     </Router>
   );

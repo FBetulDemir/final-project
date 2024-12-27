@@ -14,16 +14,15 @@ body {
 }
 .info-container {
   display: grid;
-  grid-template-columns: repeat(14, 17px);
-  grid-template-rows: repeat(8, 4px);
+  grid-template-columns: repeat(130px, 1fr);
+  grid-template-rows: auto;
   gap: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
-
+  max-width: 600px;
+  padding: 10px;
   background-color: rgb(212, 111, 195);
 }
 
@@ -31,8 +30,8 @@ body {
   width: 130px;
   height: auto;
   object-fit: cover;
-  grid-column: 1/13;
-  grid-row: 2 / 8;
+  grid-column: 1/2;
+  grid-row: 1/ 3;
 }
 
 .date-container {
@@ -41,8 +40,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  grid-column: 2/14;
-  grid-row: 3 / 8;
+  grid-column: 1/3;
+  grid-row: 2/3;
 }
 
 h3 {
@@ -51,10 +50,12 @@ h3 {
 }
 
 .event-name {
-  grid-column: 7/14;
-  grid-row: 1 / 8;
+  grid-column: 1 / 3;
+  grid-row: 1/3;
   color: #fce8fa;
-  margin-top: 10px;
+  margin-bottom: 5rem;
   font-size: 35px;
   letter-spacing: 1px;
+  text-align: center;
+  align-self: center;
 }

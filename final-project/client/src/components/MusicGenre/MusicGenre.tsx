@@ -2,7 +2,8 @@ import './MusicGenre.css';
 import musicGenreImage from '../../assets/music-genre.png';
 import Header from '../Header';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 interface Event {
   _id: string;
   EventName: string;
@@ -13,6 +14,9 @@ interface Event {
 const MusicGenre: React.FC = () => {
   const { genre } = useParams<{ genre: string }>();
   const [events, setEvents] = useState<Event[]>([]);
+  //* To connect Ticket component by ID
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,26 +28,35 @@ const MusicGenre: React.FC = () => {
         }
         const data: Event[] = await response.json();
         setEvents(data);
-        console.log(data);
+        console.log('Fetched Events:', data);
       } catch (error) {
         console.error('Error message:', error);
       }
     };
     fetchData();
   }, [genre]);
+  const handleEventClick = (id: string) => {
+    navigate(`/ticket/${id}`);
+    // console.log(id);
+  };
+
   return (
     <>
+      <Header />
       <div className='text-container'>
         <h1>Music Genre: {genre}</h1>
         {events.length > 0 ? (
           events.map((event) => (
-            <div key={event._id} className='info-container '>
+            <div
+              key={event._id}
+              className='info-container '
+              onClick={() => handleEventClick(event._id)}
+            >
               <img
                 src={musicGenreImage}
                 alt='a shadow man playing guitar'
                 className='img'
               />
-
               <h2 className='event-name'>{event.EventName}</h2>
               <div className='date-container'>
                 <h3>Location: {event.Location}</h3>
@@ -52,7 +65,7 @@ const MusicGenre: React.FC = () => {
             </div>
           ))
         ) : (
-          <p>Loading events</p>
+          <p>Loading event details</p>
         )}
       </div>
     </>
