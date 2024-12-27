@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import "./createEvent.css";
-import axios from "axios";
-import { validateEventFormData } from "./validateEvent";
-import GoogleMap from "../GoogleMap/GoogleMap";
+import { useEffect, useState, useRef } from 'react';
+import './createEvent.css';
+import axios from 'axios';
+import { validateEventFormData } from './validateEvent';
+import GoogleMap from '../GoogleMap/GoogleMap';
 
 export interface EventFormData {
   eventName: string;
@@ -16,14 +16,14 @@ export interface EventFormData {
 }
 
 export default function CreateEvent() {
-  const datetimeString = "yyyy-MM-ddThh:mm:ssZ";
+  const datetimeString = 'yyyy-MM-ddThh:mm:ssZ';
   const dateObject = new Date(datetimeString);
 
   const [eventData, setEventData] = useState<EventFormData>({
-    eventName: "",
-    genre: "",
-    description: "",
-    location: "",
+    eventName: '',
+    genre: '',
+    description: '',
+    location: '',
     dateTime: dateObject,
     ticketPrice: 0,
     maxAttendees: 0,
@@ -38,7 +38,7 @@ export default function CreateEvent() {
     if (!eventData.location) return;
 
     if (cancelTokenRef.current) {
-      cancelTokenRef.current.cancel("New request initiated");
+      cancelTokenRef.current.cancel('New request initiated');
     }
 
     const cancelTokenSource = axios.CancelToken.source();
@@ -57,13 +57,13 @@ export default function CreateEvent() {
           }
         );
 
-        if (response.data.status === "OK") {
+        if (response.data.status === 'OK') {
           const location = response.data.results[0].geometry.location;
           setCoordinates({ lat: location.lat, lng: location.lng });
         }
       } catch (err) {
         if (!axios.isCancel(err)) {
-          console.error("Error in geocoding:", err);
+          console.error('Error in geocoding:', err);
         }
       }
     };
@@ -117,16 +117,16 @@ export default function CreateEvent() {
         }
       );
 
-      if (response.data.status === "OK") {
+      if (response.data.status === 'OK') {
         const location = response.data.results[0].geometry.location;
         setCoordinates({ lat: location.lat, lng: location.lng });
         return location;
       } else {
-        throw new Error("Geocoding failed. Check the address.");
+        throw new Error('Geocoding failed. Check the address.');
       }
     } catch (error) {
-      console.error("Error in geocoding:", error);
-      alert("Failed to fetch location. Please check the address.");
+      console.error('Error in geocoding:', error);
+      alert('Failed to fetch location. Please check the address.');
       throw error;
     }
   };
@@ -146,170 +146,170 @@ export default function CreateEvent() {
     console.log(lat, lng);
 
     const eventDataToSend = new FormData();
-    eventDataToSend.append("EventName", eventData.eventName);
-    eventDataToSend.append("Genre", eventData.genre);
-    eventDataToSend.append("Description", eventData.description);
-    eventDataToSend.append("Location", eventData.location);
-    eventDataToSend.append("Latitude", lat);
-    eventDataToSend.append("Longitude", lng);
-    eventDataToSend.append("DateTime", eventData.dateTime);
-    eventDataToSend.append("TicketPrice", eventData.ticketPrice.toString());
-    eventDataToSend.append("MaxAttendees", eventData.maxAttendees.toString());
+    eventDataToSend.append('EventName', eventData.eventName);
+    eventDataToSend.append('Genre', eventData.genre);
+    eventDataToSend.append('Description', eventData.description);
+    eventDataToSend.append('Location', eventData.location);
+    eventDataToSend.append('Latitude', lat);
+    eventDataToSend.append('Longitude', lng);
+    eventDataToSend.append('DateTime', eventData.dateTime);
+    eventDataToSend.append('TicketPrice', eventData.ticketPrice.toString());
+    eventDataToSend.append('MaxAttendees', eventData.maxAttendees.toString());
 
     if (eventData.poster) {
-      eventDataToSend.append("Poster", eventData.poster);
+      eventDataToSend.append('Poster', eventData.poster);
     }
     console.log(eventDataToSend);
     try {
       const response = await axios.post(
-        "http://localhost:3002/events/create-event",
+        'http://localhost:3002/events/create-event',
         eventDataToSend,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
 
-      console.log("Event created successfully:", response.data);
-      alert("Event created successfully!");
+      console.log('Event created successfully:', response.data);
+      alert('Event created successfully!');
     } catch (error) {
-      console.error("Error creating event:");
-      alert("Failed to create event.");
+      console.error('Error creating event:');
+      alert('Failed to create event.');
     }
   };
 
   return (
-    <div className="parent-cont">
-      <div className="container">
+    <div className='parent-cont'>
+      <div className='container'>
         <h2>Create Event</h2>
-        <div className="">
-          <form onSubmit={handleSubmit} className="event-form">
+        <div className=''>
+          <form onSubmit={handleSubmit} className='event-form'>
             <fieldset>
               <label>Event Name</label>
               <input
-                type="text"
-                name="eventName"
+                type='text'
+                name='eventName'
                 value={eventData.eventName}
                 onChange={handleChange}
               />
               {error.eventName && (
-                <span className="error">{error.eventName}</span>
+                <span className='error'>{error.eventName}</span>
               )}
             </fieldset>
 
             <fieldset>
               <label>Genre</label>
               <select
-                name="genre"
+                name='genre'
                 value={eventData.genre}
                 onChange={handleChange}
               >
-                <option value="" disabled>
+                <option value='' disabled>
                   Select a Genre
                 </option>
-                <option value="Rock">Rock</option>
-                <option value="Pop">Pop</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Classical">Classical</option>
-                <option value="Hip-Hop">Hip-Hop</option>
-                <option value="EDM">EDM</option>
-                <option value="Country">Country</option>
-                <option value="Reggae">Reggae</option>
-                <option value="Blues">Blues</option>
-                <option value="Soul/R&B">Soul/R&B</option>
-                <option value="Folk">Folk</option>
-                <option value="Latin">Latin</option>
-                <option value="Metal">Metal</option>
-                <option value="Punk">Punk</option>
-                <option value="World Music">World Music</option>
-                <option value="Gospel">Gospel</option>
+                <option value='Rock'>Rock</option>
+                <option value='Pop'>Pop</option>
+                <option value='Jazz'>Jazz</option>
+                <option value='Classical'>Classical</option>
+                <option value='Hip-Hop'>Hip-Hop</option>
+                <option value='EDM'>EDM</option>
+                <option value='Country'>Country</option>
+                <option value='Reggae'>Reggae</option>
+                <option value='Blues'>Blues</option>
+                <option value='Soul/R&B'>Soul/R&B</option>
+                <option value='Folk'>Folk</option>
+                <option value='Latin'>Latin</option>
+                <option value='Metal'>Metal</option>
+                <option value='Punk'>Punk</option>
+                <option value='World Music'>World Music</option>
+                <option value='Gospel'>Gospel</option>
               </select>
-              {error.genre && <span className="error">{error.genre}</span>}
+              {error.genre && <span className='error'>{error.genre}</span>}
             </fieldset>
 
             <fieldset>
               <label>Description</label>
               <textarea
-                name="description"
+                name='description'
                 value={eventData.description}
                 onChange={handleChange}
               />
               {error.description && (
-                <span className="error">{error.description}</span>
+                <span className='error'>{error.description}</span>
               )}
             </fieldset>
 
             <fieldset>
               <label>Location</label>
               <input
-                type="text"
-                name="location"
+                type='text'
+                name='location'
                 value={eventData.location}
                 onChange={handleChange}
               />
               {error.location && (
-                <span className="error">{error.location}</span>
+                <span className='error'>{error.location}</span>
               )}
             </fieldset>
 
             <fieldset>
               <label>Date and Time</label>
               <input
-                type="datetime-local"
-                name="dateTime"
+                type='datetime-local'
+                name='dateTime'
                 value={eventData.dateTime}
                 onChange={handleChange}
               />
               {error.dateTime && (
-                <span className="error">{error.dateTime}</span>
+                <span className='error'>{error.dateTime}</span>
               )}
             </fieldset>
             <fieldset>
               <label>Event Poster</label>
               <input
-                type="file"
-                name="poster"
-                accept="image/*"
+                type='file'
+                name='poster'
+                accept='image/*'
                 onChange={handlePosterChange}
               />
               {posterPreview && (
                 <div>
-                  <img src={posterPreview} alt="Poster Preview" width="200" />
+                  <img src={posterPreview} alt='Poster Preview' width='200' />
                 </div>
               )}
             </fieldset>
             <fieldset>
               <label>Ticket Price</label>
               <input
-                type="number"
-                name="ticketPrice"
+                type='number'
+                name='ticketPrice'
                 value={eventData.ticketPrice}
                 onChange={handleChange}
               />
               {error.ticketPrice && (
-                <span className="error">{error.ticketPrice}</span>
+                <span className='error'>{error.ticketPrice}</span>
               )}
             </fieldset>
 
             <fieldset>
               <label>Max Attendees</label>
               <input
-                type="number"
-                name="maxAttendees"
+                type='number'
+                name='maxAttendees'
                 value={eventData.maxAttendees}
                 onChange={handleChange}
               />
               {error.maxAttendees && (
-                <span className="error">{error.maxAttendees}</span>
+                <span className='error'>{error.maxAttendees}</span>
               )}
             </fieldset>
-            <button type="submit">Create Event</button>
+            <button type='submit'>Create Event</button>
           </form>
         </div>
       </div>
-      <div className="map-cont">
-        <GoogleMap coordinates={coordinates} />
+      <div className='map-cont'>
+        <GoogleMap coordinates={coordinates} mapHeight='80vh' />
       </div>
     </div>
   );
