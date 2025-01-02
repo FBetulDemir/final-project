@@ -1,16 +1,12 @@
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
-}
 .text-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+.music-title {
+  margin-top: 20px;
 }
 .info-container {
   display: grid;

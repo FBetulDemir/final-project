@@ -44,7 +44,7 @@ const MusicGenre: React.FC = () => {
     <>
       <Header />
       <div className='text-container'>
-        <h1>Music Genre: {genre}</h1>
+        <h1 className='music-title'>Music Genre: {genre}</h1>
         {events.length > 0 ? (
           events.map((event) => (
             <div
