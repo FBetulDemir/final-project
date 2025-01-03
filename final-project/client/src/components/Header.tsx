@@ -16,7 +16,7 @@ const Header: React.FC = () => {
                         <Link to='/'>Home</Link>
                     </li>
                     <li>
-                        <Link to='/browse'>Browse Events</Link>
+                        <Link to='/browser'>Browse Events</Link>
                     </li>
                     <li>
                         <Link to='/genre'>Explore Genres</Link>
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
                         <Link to='/login'>Login</Link>
                     </li>
                     <li>
-                        <Link to='/signup'>Sign Up</Link>
+                        <Link to='/register'>Sign Up</Link>
                     </li>
                 </ul>
             </nav>

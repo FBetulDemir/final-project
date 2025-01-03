@@ -99,6 +99,7 @@ router.post('/create-event', upload.single('Poster'), async (req, res) => {
     } else {
       res.status(500).send('Error creating event');
     }
+    console.log(JSON.stringify(err, 2, null))
   }
 });
 
@@ -122,11 +123,17 @@ router.get('/get-event/:id', async (req, res) => {
   res.send(event);
 });
 
-router.put('/update-event/:id', async (req, res) => {
+router.put("/update-event/:id", upload.single('poster'), async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
-  console.log(updates);
-  console.log('id ', id);
+
+  // If a file was uploaded, add its path to updates
+  if (req.file) {
+    updates.poster = `http://localhost:3002/${req.file.path}`;
+  }
+
+  console.log('Updates:', updates);
+  console.log('Event ID:', id);
 
   try {
     const updatedEvent = await db.Event.findByIdAndUpdate(id, updates, {
@@ -138,7 +145,8 @@ router.put('/update-event/:id', async (req, res) => {
     }
     res.json(updatedEvent);
   } catch (err) {
-    res.status(500).send('Error updating event');
+    console.error("Error updating event:", err);
+    res.status(500).send("Error updating event");
   }
 });
 

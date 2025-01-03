@@ -10,7 +10,7 @@ const Browser = () => {
   useEffect(() => {
     // Llamada a la API para obtener los conciertos
     axios
-      .get("/api/concerts")
+      .get("/events/get-events")
       .then((response) => {
         console.log("API response:", response);
         if (Array.isArray(response.data)) {

@@ -38,7 +38,7 @@ export default function Register() {
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [preview, setPreview] = useState<string | null>(null);
-    const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+    const [, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -111,7 +111,7 @@ export default function Register() {
             if (profilePicture) formDataToSend.append('ProfilePicture', profilePicture);
 
             // Submit to your API
-            const response = await axios.post('http://localhost:3002/api/register', formDataToSend, {
+            await axios.post('http://localhost:3002/api/register', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
