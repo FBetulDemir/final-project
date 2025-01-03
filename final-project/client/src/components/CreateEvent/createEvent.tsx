@@ -3,31 +3,33 @@ import "./createEvent.css";
 import axios from "axios";
 import { validateEventFormData } from "./validateEvent";
 import GoogleMap from "../GoogleMap/GoogleMap";
+import { useNavigate } from "react-router-dom";
 
 export interface EventFormData {
-  eventName: string;
-  genre: string;
-  description: string;
-  location: string;
-  dateTime: Date;
-  ticketPrice: number;
-  maxAttendees: number;
-  poster: File | null;
+  EventName: string;
+  Genre: string;
+  Description: string;
+  Location: string;
+  DateTime: string;
+  TicketPrice: number;
+  MaxAttendees: number;
+  Poster: File | null;
 }
 
 export default function CreateEvent() {
   const datetimeString = "yyyy-MM-ddThh:mm:ssZ";
   const dateObject = new Date(datetimeString);
+  const navigate = useNavigate()
 
   const [eventData, setEventData] = useState<EventFormData>({
-    eventName: "",
-    genre: "",
-    description: "",
-    location: "",
-    dateTime: dateObject,
-    ticketPrice: 0,
-    maxAttendees: 0,
-    poster: null,
+    EventName: "",
+    Genre: "",
+    Description: "",
+    Location: "",
+    DateTime: "",
+    TicketPrice: 0,
+    MaxAttendees: 0,
+    Poster: null,
   });
 
   const cancelTokenRef = useRef<ReturnType<
@@ -35,7 +37,7 @@ export default function CreateEvent() {
   > | null>(null);
 
   useEffect(() => {
-    if (!eventData.location) return;
+    if (!eventData.Location) return;
 
     if (cancelTokenRef.current) {
       cancelTokenRef.current.cancel("New request initiated");
@@ -50,7 +52,7 @@ export default function CreateEvent() {
           `https://maps.googleapis.com/maps/api/geocode/json`,
           {
             params: {
-              address: eventData.location,
+              address: eventData.Location,
               key: import.meta.env.VITE_GEOCODING_API_KEY,
             },
             cancelToken: cancelTokenSource.token,
@@ -72,7 +74,7 @@ export default function CreateEvent() {
     return () => {
       cancelTokenRef.current = null;
     };
-  }, [eventData.location]);
+  }, [eventData.Location]);
 
   const [coordinates, setCoordinates] = useState<{
     lat: number;
@@ -94,7 +96,7 @@ export default function CreateEvent() {
 
   const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const posterFile = e.target.files?.[0] || null;
-    setEventData({ ...eventData, poster: posterFile });
+    setEventData({ ...eventData, Poster: posterFile });
 
     if (posterFile) {
       const reader = new FileReader();
@@ -134,33 +136,38 @@ export default function CreateEvent() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     const errValidation = validateEventFormData(eventData);
     if (Object.keys(errValidation).length > 0) {
       setError(errValidation);
       return;
     }
-
-    const { lat, lng } = await geocodeLocation(eventData.location);
-
-    console.log(lat, lng);
-
-    const eventDataToSend = new FormData();
-    eventDataToSend.append("EventName", eventData.eventName);
-    eventDataToSend.append("Genre", eventData.genre);
-    eventDataToSend.append("Description", eventData.description);
-    eventDataToSend.append("Location", eventData.location);
-    eventDataToSend.append("Latitude", lat);
-    eventDataToSend.append("Longitude", lng);
-    eventDataToSend.append("DateTime", eventData.dateTime);
-    eventDataToSend.append("TicketPrice", eventData.ticketPrice.toString());
-    eventDataToSend.append("MaxAttendees", eventData.maxAttendees.toString());
-
-    if (eventData.poster) {
-      eventDataToSend.append("Poster", eventData.poster);
-    }
-    console.log(eventDataToSend);
+  
     try {
+      const { lat, lng } = await geocodeLocation(eventData.Location);
+  
+      console.log("Latitude:", lat, "Longitude:", lng);
+  
+      const eventDataToSend = new FormData();
+      eventDataToSend.append("EventName", eventData.EventName);
+      eventDataToSend.append("Genre", eventData.Genre);
+      eventDataToSend.append("Description", eventData.Description);
+      eventDataToSend.append("Location", eventData.Location);
+      eventDataToSend.append("Latitude", lat); // Convert to string
+      eventDataToSend.append("Longitude", lng); // Convert to string
+      eventDataToSend.append("DateTime", eventData.DateTime);
+      eventDataToSend.append("TicketPrice", eventData.TicketPrice.toString());
+      eventDataToSend.append("MaxAttendees", eventData.MaxAttendees.toString());
+  
+      if (eventData.Poster) {
+        eventDataToSend.append("Poster", eventData.Poster);
+      }
+  
+      // Log the FormData entries to see what's inside
+      for (const [key, value] of eventDataToSend.entries()) {
+        console.log(`${key}:`, value);
+      }
+  
       const response = await axios.post(
         "http://localhost:3002/events/create-event",
         eventDataToSend,
@@ -170,11 +177,13 @@ export default function CreateEvent() {
           },
         }
       );
-
+      
       console.log("Event created successfully:", response.data);
+      
       alert("Event created successfully!");
-    } catch (error) {
-      console.error("Error creating event:");
+      navigate("/");
+    } catch (err) {
+      console.error("Error creating event:", JSON.stringify(err, null, 2));
       alert("Failed to create event.");
     }
   };
@@ -189,8 +198,8 @@ export default function CreateEvent() {
               <label>Event Name</label>
               <input
                 type="text"
-                name="eventName"
-                value={eventData.eventName}
+                name="EventName"
+                value={eventData.EventName}
                 onChange={handleChange}
               />
               {error.eventName && (
@@ -201,8 +210,8 @@ export default function CreateEvent() {
             <fieldset>
               <label>Genre</label>
               <select
-                name="genre"
-                value={eventData.genre}
+                name="Genre"
+                value={eventData.Genre}
                 onChange={handleChange}
               >
                 <option value="" disabled>
@@ -231,8 +240,8 @@ export default function CreateEvent() {
             <fieldset>
               <label>Description</label>
               <textarea
-                name="description"
-                value={eventData.description}
+                name="Description"
+                value={eventData.Description}
                 onChange={handleChange}
               />
               {error.description && (
@@ -244,8 +253,8 @@ export default function CreateEvent() {
               <label>Location</label>
               <input
                 type="text"
-                name="location"
-                value={eventData.location}
+                name="Location"
+                value={eventData.Location}
                 onChange={handleChange}
               />
               {error.location && (
@@ -257,8 +266,7 @@ export default function CreateEvent() {
               <label>Date and Time</label>
               <input
                 type="datetime-local"
-                name="dateTime"
-                value={eventData.dateTime}
+                name="DateTime"
                 onChange={handleChange}
               />
               {error.dateTime && (
@@ -269,7 +277,7 @@ export default function CreateEvent() {
               <label>Event Poster</label>
               <input
                 type="file"
-                name="poster"
+                name="Poster"
                 accept="image/*"
                 onChange={handlePosterChange}
               />
@@ -283,8 +291,8 @@ export default function CreateEvent() {
               <label>Ticket Price</label>
               <input
                 type="number"
-                name="ticketPrice"
-                value={eventData.ticketPrice}
+                name="TicketPrice"
+                value={eventData.TicketPrice}
                 onChange={handleChange}
               />
               {error.ticketPrice && (
@@ -296,8 +304,8 @@ export default function CreateEvent() {
               <label>Max Attendees</label>
               <input
                 type="number"
-                name="maxAttendees"
-                value={eventData.maxAttendees}
+                name="MaxAttendees"
+                value={eventData.MaxAttendees}
                 onChange={handleChange}
               />
               {error.maxAttendees && (

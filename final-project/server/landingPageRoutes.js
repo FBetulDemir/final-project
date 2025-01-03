@@ -1,18 +1,21 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-dotenv.config();
+// Obtener el directorio actual usando import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-app.use(cors());
-app.use(express.json());
+
+const router = express.Router();
 
 // Endpoint to fetch events from Ticketmaster API
-app.get('/api/events', async (req, res) => {
+router.get('/api/events', async (req, res) => {
     const {
         countryCode = 'US',
         segmentId = 'KZFzniwnSyZfZ7v7nJ',
@@ -56,8 +59,6 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-
 console.log('API Key:', process.env.VITE_TICKETMASTER_API_KEY);
+
+export default router;

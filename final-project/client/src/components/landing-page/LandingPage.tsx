@@ -13,8 +13,9 @@ const LandingPage: React.FC = () => {
         const fetchEvents = async () => {
             try {
                 const response = await fetch(
-                    'http://localhost:3002/api/events'
+                    'http://localhost:3002/events/get-events'
                 );
+                console.log(response)
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios'; // For making HTTP requests
 import styles from './_loginForm.module.css';
 import musicImage from '../images/music-image.png';
+import { useAuth } from '../providers/AuthProvider';
 
 export interface FormData {
     username: string;
@@ -20,6 +21,8 @@ export default function Login() {
     const [message, setMessage] = useState<string | null>(null);
 
     const navigate = useNavigate(); // Initialize useNavigate
+    const { login } = useAuth(); // Access the login function from AuthContext
+    const location = useLocation();
 
     // Handle form input changes
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,15 +67,19 @@ export default function Login() {
                 Password: formData.password,
             });
 
-            
             setMessage('Login successful!');
             console.log('Login response:', response.data);
 
-           
+            // Save token to localStorage
             localStorage.setItem('token', response.data.token);
 
-           
-            navigate('/'); 
+            // Set user as authenticated
+            login();
+            const from = location.state?.from?.pathname || "/"; // Redirect back to the protected route or home
+            navigate(from, { replace: true });
+
+            // Navigate to the home page
+            navigate('/');
         } catch (error: any) {
             console.error('Login error:', error);
             setMessage(error.response?.data?.message || 'An error occurred during login');
@@ -123,5 +130,4 @@ export default function Login() {
             </div>
         </div>
     );
-};
-
+}

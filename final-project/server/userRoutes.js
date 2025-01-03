@@ -8,6 +8,7 @@ import path from "path";
 import mongoose from "mongoose";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+
 const router = express.Router();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -98,7 +99,7 @@ router.post(
     }
   }
 );
-
+console.log(process.env.JWT_SECRET)
 // Login user
 router.post("/api/login", async (req, res) => {
   const { Username, Password } = req.body;
@@ -122,6 +123,7 @@ router.post("/api/login", async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+    
 
     // Respond with the user details and token
     res.status(200).json({
