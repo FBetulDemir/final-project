@@ -1,29 +1,38 @@
 .event-slider {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
+    width: 100%;
+    margin: 20px 0;
 }
 
 .event-container {
     display: flex;
-    overflow: hidden;
-    width: 80%;
+    overflow: hidden; /* Ensure only visible events are displayed */
+    width: 80%; /* Adjust the width to fit your design */
+    gap: 10px; /* Add space between cards */
 }
 
 .event-card {
-    flex: 0 0 25%; /* Show 4 items at a time */
-    margin: 10px;
+    flex: 0 0 calc(25% - 10px); /* Dynamically adjust width for 4 cards */
     text-align: center;
     background: white;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     padding: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
 .event-image {
     width: 100%;
-    height: auto;
+    height: 150px;
+    object-fit: cover;
     border-radius: 8px;
 }
 
@@ -53,10 +62,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+    background: gray;
 }
 
 .left-arrow {
@@ -65,9 +75,4 @@
 
 .right-arrow {
     right: 10px;
-}
-
-.arrow:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }

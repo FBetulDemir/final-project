@@ -27,6 +27,11 @@ const Header: React.FC = () => {
                     <li>
                         <Link to='/register'>Sign Up</Link>
                     </li>
+                    <li>
+                        <Link to='/events/create' className='create-event-link'>
+                            Create Event
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </header>

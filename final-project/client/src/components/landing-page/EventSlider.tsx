@@ -36,6 +36,7 @@ const EventSlider: React.FC<Props> = ({ events }) => {
 
     return (
         <div className='event-slider'>
+            {/* Left Arrow */}
             <button
                 className='arrow left-arrow'
                 onClick={prevSlide}
@@ -43,13 +44,15 @@ const EventSlider: React.FC<Props> = ({ events }) => {
             >
                 &#8249;
             </button>
+
+            {/* Events Container */}
             <div className='event-container'>
                 {visibleEvents.map((event) => (
                     <div key={event._id} className='event-card'>
                         <img
                             src={
                                 event.Poster ||
-                                'https://via.placeholder.com/150'
+                                'https://via.placeholder.com/200x150'
                             }
                             alt={event.EventName}
                             className='event-image'
@@ -63,6 +66,8 @@ const EventSlider: React.FC<Props> = ({ events }) => {
                     </div>
                 ))}
             </div>
+
+            {/* Right Arrow */}
             <button
                 className='arrow right-arrow'
                 onClick={nextSlide}
