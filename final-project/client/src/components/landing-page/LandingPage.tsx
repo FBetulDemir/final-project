@@ -15,14 +15,20 @@ const LandingPage: React.FC = () => {
                 const response = await fetch(
                     'http://localhost:3002/events/get-events'
                 );
-                console.log(response)
+                console.log('Fetch Response:', response);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch events');
+                    throw new Error(
+                        `Failed to fetch events: ${response.statusText}`
+                    );
                 }
                 const data = await response.json();
+                console.log('Event Data:', data); // Log the full response data
                 setEvents(data);
             } catch (err: any) {
-                setError(err.message);
+                console.error('Fetch Error:', err);
+                setError(
+                    err.message || 'An error occurred while fetching events'
+                );
             }
         };
 
@@ -35,16 +41,31 @@ const LandingPage: React.FC = () => {
     return (
         <div className='landing-page'>
             <Header />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && (
+                <div style={{ color: 'red', margin: '1em 0' }}>
+                    <p>Error: {error}</p>
+                    <p>
+                        Please try refreshing the page or contact support if the
+                        problem persists.
+                    </p>
+                </div>
+            )}
+            {events.length === 0 && !error && (
+                <p>No events available at the moment.</p>
+            )}
             <div className='main-content'>
                 {firstEvent && (
                     <MainEventBanner
-                        eventName={firstEvent.EventName}
+                        eventName={firstEvent.EventName || 'Unknown Event'}
                         location={firstEvent.Location || 'Unknown Location'}
-                        date={new Date(
+                        date={
                             firstEvent.DateTime
-                        ).toLocaleDateString()}
-                        poster={firstEvent.Poster || ''}
+                                ? new Date(
+                                      firstEvent.DateTime
+                                  ).toLocaleDateString()
+                                : 'Unknown Date'
+                        }
+                        poster={firstEvent.Poster || 'default-poster.png'}
                     />
                 )}
                 <EventSlider events={remainingEvents} />

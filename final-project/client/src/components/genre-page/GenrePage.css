@@ -1,25 +1,33 @@
-.container {
+/* .genre-wrapper {
+    height: 150vh;
+    color: white;
+} */
+.genre-container {
     display: grid;
-    width: 90%;
+    width: 100%;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 20px;
+    gap: 2em;
+    padding: 3em;
     background: linear-gradient(to right, #ff0080, #8000ff);
+    height: 90vh;
+}
+.genre-button {
+    color: white;
+    font-size: 24px;
+    text-shadow: 2px 2px #1b1a1a;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
 }
 
 .button {
-    height: 80px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
+    height: fit-content;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-.button:hover {
+.genre-button:hover {
     opacity: 0.9;
     transform: scale(1.05);
     transition: transform 0.2s ease, opacity 0.2s ease;
