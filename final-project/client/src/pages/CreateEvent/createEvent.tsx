@@ -4,7 +4,7 @@ import axios from "axios";
 import { validateEventFormData } from "../../utils/validateEvent";
 import GoogleMap from "../GoogleMap/GoogleMap";
 import { useNavigate } from "react-router-dom";
-import Header from "@components/Header";
+import Header from "../Header";
 
 export interface EventFormData {
   ArtistName: string;

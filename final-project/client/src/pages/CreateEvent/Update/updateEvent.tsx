@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../createEvent.css";
 import { validateEventFormData } from "../../../utils/validateEvent";
-import GoogleMap from "@components/GoogleMap/GoogleMap";
-import Header from "@components/Header";
+import GoogleMap from "../../GoogleMap/GoogleMap";
+import Header from "../../Header";
 
 export interface UpdatedEventFormData {
   ArtistName: string;
