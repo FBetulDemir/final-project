@@ -9,6 +9,7 @@ interface Event {
   EventName: string;
   Location: string;
   DateTime: string;
+  ArtistName: string;
 }
 
 const MusicGenre: React.FC = () => {
@@ -61,8 +62,15 @@ const MusicGenre: React.FC = () => {
                 />
                 <h2 className='event-name'>{event.EventName}</h2>
                 <div className='date-container'>
-                  <h3>Location: {event.Location}</h3>
-                  <h3>Time: {new Date(event.DateTime).toLocaleString()}</h3>
+                  <h3 className='event-detail-music-genre'>
+                    Artist:{event.ArtistName}
+                  </h3>
+                  <h3 className='event-detail-music-genre'>
+                    Location: {event.Location}
+                  </h3>
+                  <h3 className='event-detail-music-genre'>
+                    Time: {new Date(event.DateTime).toLocaleString()}
+                  </h3>
                 </div>
               </div>
             ))

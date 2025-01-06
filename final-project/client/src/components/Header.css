@@ -6,17 +6,7 @@
   padding: 1rem;
   background-color: #550080;
   color: rgb(247, 243, 243);
-  font-size: 24px;
-  padding-right: 2em;
-}
-
-.header-cont {
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
+  padding-right: 20px;
 }
 
 .logo-container {
@@ -29,12 +19,6 @@
   height: 80px;
 }
 
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-}
-
 .nav-links {
   list-style: none;
   display: flex;
@@ -43,12 +27,89 @@
   padding: 0;
 }
 
-.nav-links li a {
+.nav-item a {
   color: white;
   text-decoration: none;
-  font-size: 1.4rem;
+  font-size: 20px;
 }
 
-.nav-links li a:hover {
+.nav-item a:hover {
   text-decoration: underline;
+}
+
+/* Hamburger menu */
+.nav-bar {
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* .nav-bar.scrolled {
+  background-color: var(--nav-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+} */
+
+.hamburger {
+  cursor: pointer;
+  z-index: 6;
+  padding: 20px;
+  margin-right: 10px;
+  display: none;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (max-width: 850px) {
+  .hamburger {
+    display: block;
+    z-index: 1000;
+  }
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    top: 0%;
+    right: 0;
+    background-color: #550080;
+    width: 100%;
+    padding-bottom: 2rem;
+    padding-top: 4rem;
+    align-items: center;
+    transform: translateY(-20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .nav-links.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 481px) {
+  .logo-image {
+    width: 60px;
+    height: auto;
+  }
+  .hamburger {
+    padding-right: 0;
+  }
 }

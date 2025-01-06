@@ -3,35 +3,35 @@ import './GenreGrid.css';
 import { useNavigate } from 'react-router-dom';
 
 const genres = [
-  { name: 'Pop', color: '#c71f37', route: '/events/genre/pop', size: 'large' },
+  { name: 'Pop', color: '#c71f37', route: '/genre/pop', size: 'large' },
   {
     name: 'Punk',
     color: '#8b0000',
-    route: '/events/genre/punk',
+    route: '/genre',
     size: 'small',
   },
   {
     name: 'Blues',
     color: '#0033cc',
-    route: '/events/genre/blues',
+    route: '/genre/blues',
     size: 'small',
   },
   {
     name: 'Hip-Hop',
     color: '#d4af37',
-    route: '/events/genre/hiphop',
+    route: '/genre/hiphop',
     size: 'small',
   },
   {
     name: 'Reggae',
     color: '#228b22',
-    route: '/events/genre/reggae',
+    route: '/genre/reggae',
     size: 'medium',
   },
   {
-    name: 'R&B/ Soul',
+    name: 'Soul/R&B ',
     color: '#800080',
-    route: '/events/genre/rnb',
+    route: '/genre/rnb',
     size: 'medium',
   },
 ];
@@ -40,7 +40,7 @@ const GenreGrid: React.FC = () => {
   const navigate = useNavigate();
 
   const handleGenreClick = (genre: string) => {
-    navigate(`events/genre/${genre}`);
+    navigate(`/genre/${genre}`);
   };
 
   return (

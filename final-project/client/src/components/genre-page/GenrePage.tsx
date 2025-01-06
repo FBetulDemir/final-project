@@ -10,12 +10,16 @@ const genres = [
   { name: 'Jazz', color: '#6A5ACD' },
   { name: 'Classical', color: '#8A2BE2' },
   { name: 'Country', color: '#D2B48C' },
-  { name: 'Electronic', color: '#32CD32' },
+  { name: 'Gospel', color: '#32CD32' },
   { name: 'Reggae', color: '#FF69B4' },
   { name: 'Blues', color: '#0000FF' },
   { name: 'Folk', color: '#A0522D' },
-  { name: 'R&B', color: '#ADD8E6' },
+  { name: 'Soul/R&B', color: '#ADD8E6' },
   { name: 'Metal', color: '#000000' },
+  { name: 'EDM', color: '#19A89A' },
+  { name: 'Latin', color: '#A81922' },
+  { name: 'Punk', color: '#FF5C25' },
+  { name: 'World_Music', color: '#7F8080' },
 ];
 
 interface Event {
