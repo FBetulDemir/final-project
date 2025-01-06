@@ -30,11 +30,25 @@
 .nav-item a {
   color: white;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 18px;
 }
 
-.nav-links li a:hover {
+.nav-item a:hover {
   text-decoration: underline;
+}
+
+.logout-button {
+  padding: 5px 15px;
+  background-color: #ffd0f3;
+  border-radius: 5px;
+  color: #151515;
+  font-size: 18px;
+  transition: all 0.4s ease-in-out;
+}
+.logout-button:hover {
+  background-color: #550080;
+  color: #fff;
+  border: #fff 1px solid;
 }
 /* Hamburger menu */
 .nav-bar {
@@ -103,9 +117,4 @@
   .hamburger {
     padding-right: 0;
   }
-}
-
-.logout-button {
-  background-color: #550080;
-  color: #fff;
 }
