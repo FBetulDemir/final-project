@@ -4,6 +4,7 @@ import axios from "axios";
 import { validateEventFormData } from "../../utils/validateEvent";
 import GoogleMap from "../GoogleMap/GoogleMap";
 import { useNavigate } from "react-router-dom";
+import Header from "@components/Header";
 
 export interface EventFormData {
   ArtistName: string;
@@ -192,148 +193,151 @@ export default function CreateEvent() {
   };
 
   return (
-    <div className="parent-cont">
-      <div className="container">
-        <h2>Create Event</h2>
-        <div className="">
-          <form onSubmit={handleSubmit} className="event-form">
-            <fieldset>
-              <label>Artist Name</label>
-              <input
-                type="text"
-                name="ArtistName"
-                value={eventData.ArtistName}
-                onChange={handleChange}
-              />
-              {error.ArtistName && (
-                <span className="error">{error.ArtistName}</span>
-              )}
-            </fieldset>
-            <fieldset>
-              <label>Event Name</label>
-              <input
-                type="text"
-                name="EventName"
-                value={eventData.EventName}
-                onChange={handleChange}
-              />
-              {error.eventName && (
-                <span className="error">{error.eventName}</span>
-              )}
-            </fieldset>
+    <>
+      <Header />
+      <div className="parent-cont">
+        <div className="container">
+          <h2>Create Event</h2>
+          <div className="">
+            <form onSubmit={handleSubmit} className="event-form">
+              <fieldset>
+                <label>Artist Name</label>
+                <input
+                  type="text"
+                  name="ArtistName"
+                  value={eventData.ArtistName}
+                  onChange={handleChange}
+                />
+                {error.ArtistName && (
+                  <span className="error">{error.ArtistName}</span>
+                )}
+              </fieldset>
+              <fieldset>
+                <label>Event Name</label>
+                <input
+                  type="text"
+                  name="EventName"
+                  value={eventData.EventName}
+                  onChange={handleChange}
+                />
+                {error.eventName && (
+                  <span className="error">{error.eventName}</span>
+                )}
+              </fieldset>
 
-            <fieldset>
-              <label>Genre</label>
-              <select
-                name="Genre"
-                value={eventData.Genre}
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Select a Genre
-                </option>
-                <option value="Rock">Rock</option>
-                <option value="Pop">Pop</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Classical">Classical</option>
-                <option value="Hip-Hop">Hip-Hop</option>
-                <option value="EDM">EDM</option>
-                <option value="Country">Country</option>
-                <option value="Reggae">Reggae</option>
-                <option value="Blues">Blues</option>
-                <option value="Soul/R&B">Soul/R&B</option>
-                <option value="Folk">Folk</option>
-                <option value="Latin">Latin</option>
-                <option value="Metal">Metal</option>
-                <option value="Punk">Punk</option>
-                <option value="World Music">World Music</option>
-                <option value="Gospel">Gospel</option>
-              </select>
-              {error.genre && <span className="error">{error.genre}</span>}
-            </fieldset>
+              <fieldset>
+                <label>Genre</label>
+                <select
+                  name="Genre"
+                  value={eventData.Genre}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>
+                    Select a Genre
+                  </option>
+                  <option value="Rock">Rock</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Classical">Classical</option>
+                  <option value="Hip-Hop">Hip-Hop</option>
+                  <option value="EDM">EDM</option>
+                  <option value="Country">Country</option>
+                  <option value="Reggae">Reggae</option>
+                  <option value="Blues">Blues</option>
+                  <option value="Soul/R&B">Soul/R&B</option>
+                  <option value="Folk">Folk</option>
+                  <option value="Latin">Latin</option>
+                  <option value="Metal">Metal</option>
+                  <option value="Punk">Punk</option>
+                  <option value="World Music">World Music</option>
+                  <option value="Gospel">Gospel</option>
+                </select>
+                {error.genre && <span className="error">{error.genre}</span>}
+              </fieldset>
 
-            <fieldset>
-              <label>Description</label>
-              <textarea
-                name="Description"
-                value={eventData.Description}
-                onChange={handleChange}
-              />
-              {error.description && (
-                <span className="error">{error.description}</span>
-              )}
-            </fieldset>
+              <fieldset>
+                <label>Description</label>
+                <textarea
+                  name="Description"
+                  value={eventData.Description}
+                  onChange={handleChange}
+                />
+                {error.description && (
+                  <span className="error">{error.description}</span>
+                )}
+              </fieldset>
 
-            <fieldset>
-              <label>Location</label>
-              <input
-                type="text"
-                name="Location"
-                value={eventData.Location}
-                onChange={handleChange}
-              />
-              {error.location && (
-                <span className="error">{error.location}</span>
-              )}
-            </fieldset>
+              <fieldset>
+                <label>Location</label>
+                <input
+                  type="text"
+                  name="Location"
+                  value={eventData.Location}
+                  onChange={handleChange}
+                />
+                {error.location && (
+                  <span className="error">{error.location}</span>
+                )}
+              </fieldset>
 
-            <fieldset>
-              <label>Date and Time</label>
-              <input
-                type="datetime-local"
-                name="DateTime"
-                onChange={handleChange}
-              />
-              {error.dateTime && (
-                <span className="error">{error.dateTime}</span>
-              )}
-            </fieldset>
-            <fieldset>
-              <label>Event Poster</label>
-              <input
-                type="file"
-                name="Poster"
-                accept="image/*"
-                onChange={handlePosterChange}
-              />
-              {posterPreview && (
-                <div>
-                  <img src={posterPreview} alt="Poster Preview" width="200" />
-                </div>
-              )}
-            </fieldset>
-            <fieldset>
-              <label>Ticket Price</label>
-              <input
-                type="number"
-                name="TicketPrice"
-                value={eventData.TicketPrice}
-                onChange={handleChange}
-              />
-              {error.ticketPrice && (
-                <span className="error">{error.ticketPrice}</span>
-              )}
-            </fieldset>
+              <fieldset>
+                <label>Date and Time</label>
+                <input
+                  type="datetime-local"
+                  name="DateTime"
+                  onChange={handleChange}
+                />
+                {error.dateTime && (
+                  <span className="error">{error.dateTime}</span>
+                )}
+              </fieldset>
+              <fieldset>
+                <label>Event Poster</label>
+                <input
+                  type="file"
+                  name="Poster"
+                  accept="image/*"
+                  onChange={handlePosterChange}
+                />
+                {posterPreview && (
+                  <div>
+                    <img src={posterPreview} alt="Poster Preview" width="200" />
+                  </div>
+                )}
+              </fieldset>
+              <fieldset>
+                <label>Ticket Price</label>
+                <input
+                  type="number"
+                  name="TicketPrice"
+                  value={eventData.TicketPrice}
+                  onChange={handleChange}
+                />
+                {error.ticketPrice && (
+                  <span className="error">{error.ticketPrice}</span>
+                )}
+              </fieldset>
 
-            <fieldset>
-              <label>Max Attendees</label>
-              <input
-                type="number"
-                name="MaxAttendees"
-                value={eventData.MaxAttendees}
-                onChange={handleChange}
-              />
-              {error.maxAttendees && (
-                <span className="error">{error.maxAttendees}</span>
-              )}
-            </fieldset>
-            <button type="submit">Create Event</button>
-          </form>
+              <fieldset>
+                <label>Max Attendees</label>
+                <input
+                  type="number"
+                  name="MaxAttendees"
+                  value={eventData.MaxAttendees}
+                  onChange={handleChange}
+                />
+                {error.maxAttendees && (
+                  <span className="error">{error.maxAttendees}</span>
+                )}
+              </fieldset>
+              <button type="submit">Create Event</button>
+            </form>
+          </div>
+        </div>
+        <div className="map-cont">
+          <GoogleMap coordinates={coordinates} mapHeight="80vh" />
         </div>
       </div>
-      <div className="map-cont">
-        <GoogleMap coordinates={coordinates} mapHeight="80vh" />
-      </div>
-    </div>
+    </>
   );
 }

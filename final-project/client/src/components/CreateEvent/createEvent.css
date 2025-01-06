@@ -15,11 +15,14 @@
 }
 
 .parent-cont {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   margin: 2rem auto;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
   align-content: center;
+  justify-content: center;
 }
 .container {
   text-align: start;
