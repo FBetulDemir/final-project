@@ -92,6 +92,10 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    ArtistName: {
+      type: String,
+      required: true,
+    },
     EventName: {
       type: String,
       required: true,
