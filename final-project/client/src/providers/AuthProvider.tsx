@@ -1,10 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+interface User {
+  Username: string;
+  Password: string;
+}
+
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: () => void;
+  user: User | null; // Include user information
+  login: (userData: User) => void;
   logout: () => void;
-  loading: boolean; // Track loading state
+  loading: boolean;
 }
 
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes in milliseconds
@@ -12,46 +18,50 @@ const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true); // Initialize loading state
+  const [user, setUser] = useState<User | null>(null); // State for user information
+  const [loading, setLoading] = useState(true);
 
-  // Login function that sets the token and expiration time
-  const login = () => {
+  const login = (userData: User) => {
     setIsAuthenticated(true);
+    setUser(userData); // Set user information
     const expirationTime = Date.now() + SESSION_TIMEOUT;
     localStorage.setItem("authExpiration", expirationTime.toString());
-    localStorage.setItem("token", "some-valid-token"); // This should be your actual token from login
+    localStorage.setItem("token", "some-valid-token"); // Replace with actual token
+    localStorage.setItem("user", JSON.stringify(userData)); // Store user data
   };
 
-  // Logout function that clears session and token
   const logout = () => {
     setIsAuthenticated(false);
+    setUser(null);
     localStorage.removeItem("authExpiration");
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   useEffect(() => {
     const checkAuthStatus = () => {
       const expirationTime = localStorage.getItem("authExpiration");
       const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
 
-      if (token && expirationTime && Date.now() < parseInt(expirationTime, 10)) {
-        setIsAuthenticated(true); // User is authenticated
+      if (token && expirationTime && Date.now() < parseInt(expirationTime, 10) && storedUser) {
+        setIsAuthenticated(true);
+        setUser(JSON.parse(storedUser)); // Restore user information
       } else {
-        logout(); // Logout if no token or session has expired
+        logout();
       }
-      setLoading(false); // Done with auth check
+      setLoading(false);
     };
 
     checkAuthStatus();
 
     const interval = setInterval(checkAuthStatus, 1000);
 
-    return () => clearInterval(interval); // Clean up the interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

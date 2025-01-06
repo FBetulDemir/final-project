@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import db from "./db.js";
 import multer from "multer";
 import path from "path";
+import authenticate from "./middleware/auth-middleware.js";
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -128,7 +129,7 @@ router.get("/get-event/:id", async (req, res) => {
   res.send(event);
 });
 
-router.put("/update-event/:id", upload.single("poster"), async (req, res) => {
+router.put("/update-event/:id", authenticate, upload.single("poster"), async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 

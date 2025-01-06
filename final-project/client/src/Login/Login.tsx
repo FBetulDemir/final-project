@@ -10,7 +10,7 @@ export interface FormData {
     password: string;
 }
 
-export default function Login() {
+const Login = () => {
     const [formData, setFormData] = useState<FormData>({
         username: '',
         password: '',
@@ -66,15 +66,17 @@ export default function Login() {
                 Username: formData.username, // Map username to Username
                 Password: formData.password,
             });
+           
 
             setMessage('Login successful!');
             console.log('Login response:', response.data);
+            localStorage.setItem("username", formData.username)
 
             // Save token to localStorage
             localStorage.setItem('token', response.data.token);
 
             // Set user as authenticated
-            login();
+            login({Username: formData.username, Password: formData.password});
             const from = location.state?.from?.pathname || "/"; // Redirect back to the protected route or home
             navigate(from, { replace: true });
 
@@ -131,3 +133,4 @@ export default function Login() {
         </div>
     );
 }
+export default Login;

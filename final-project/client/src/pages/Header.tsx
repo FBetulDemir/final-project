@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider"; // Import the useAuth hook
 import "./Header.css";
 import Logo from "../assets/logo.png";
 
 const Header: React.FC = () => {
+  const { isAuthenticated, logout } = useAuth(); // Access isAuthenticated and logout
+
   return (
     <header className="header">
       <div className="header-cont">
@@ -22,12 +25,22 @@ const Header: React.FC = () => {
             <li>
               <Link to="/genre">Explore Genres</Link>
             </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/register">Sign Up</Link>
-            </li>
+            {isAuthenticated ? (
+              <li>
+                <button onClick={logout} className="logout-button">
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/register">Sign Up</Link>
+                </li>
+              </>
+            )}
             <li>
               <Link to="/events/create" className="create-event-link">
                 Create Event

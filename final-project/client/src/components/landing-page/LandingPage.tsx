@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
 import Header from '../Header';
-import EventSlider from './EventSlider';
-import MainEventBanner from './MainEventBanner';
-import GenreGrid from './GenreGrid';
+import EventSlider from 'pages/landing-page/EventSlider';
+import MainEventBanner from 'pages/landing-page/MainEventBanner';
+import GenreGrid from 'pages/landing-page/GenreGrid';
 
 const LandingPage: React.FC = () => {
     const [events, setEvents] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null)
+    const [userId, setUserId] = useState<string | null>(null)
 
     useEffect(() => {
-        const storedUsername = localStorage.getItem("username")
-        setUsername(storedUsername)
+        const storedUserId = localStorage.getItem("userId")
+        setUserId(storedUserId)
     }, [])
 
     useEffect(() => {
@@ -74,11 +74,11 @@ const LandingPage: React.FC = () => {
                         poster={firstEvent.Poster || 'default-poster.png'}
                     />
                 )}
-                <EventSlider events={remainingEvents} Username={username} />
+                <EventSlider events={remainingEvents} currentUserId={userId}/>
                 <GenreGrid />
             </div>
         </div>
     );
 };
 
-export default LandingPage;
+//export default LandingPage;

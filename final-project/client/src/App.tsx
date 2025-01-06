@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./Register/Register";
@@ -10,6 +11,7 @@ import GenrePage from "./pages/genre-page/GenrePage";
 import MusicGenre from "./pages/MusicGenre/MusicGenre";
 import Ticket from "./pages/Ticket/Ticket";
 import ProtectedRoute from "./Login/protectedRoute";
+import CustomProtectedRoute from "./Login/customProtectedRoute";
 
 const App = () => {
   return (
@@ -33,9 +35,9 @@ const App = () => {
         <Route
           path="/events/update/:id"
           element={
-            <ProtectedRoute>
+            <CustomProtectedRoute>
               <UpdateEvent />
-            </ProtectedRoute>
+            </CustomProtectedRoute>
           }
         />
         <Route
