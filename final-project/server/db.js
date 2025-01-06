@@ -29,7 +29,7 @@ export const Genres = {
   LATIN: "Latin",
   METAL: "Metal",
   PUNK: "Punk",
-  WORLD_MUSIC: "World Music",
+  WORLD_MUSIC: "World_Music",
   GOSPEL: "Gospel",
 };
 
@@ -89,6 +89,10 @@ const eventSchema = new mongoose.Schema(
       unique: true,
     },
     MusicianId: {
+      type: String,
+      required: true,
+    },
+    ArtistName: {
       type: String,
       required: true,
     },

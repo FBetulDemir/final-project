@@ -43,30 +43,33 @@ const MusicGenre: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='text-container'>
-        <h1 className='music-title'>Music Genre: {genre}</h1>
-        {events.length > 0 ? (
-          events.map((event) => (
-            <div
-              key={event._id}
-              className='info-container '
-              onClick={() => handleEventClick(event._id)}
-            >
-              <img
-                src={musicGenreImage}
-                alt='a shadow man playing guitar'
-                className='img'
-              />
-              <h2 className='event-name'>{event.EventName}</h2>
-              <div className='date-container'>
-                <h3>Location: {event.Location}</h3>
-                <h3>Time: {new Date(event.DateTime).toLocaleString()}</h3>
+
+      <div className='body'>
+        <div className='text-container'>
+          <h1>Music Genre: {genre}</h1>
+          {events.length > 0 ? (
+            events.map((event) => (
+              <div
+                key={event._id}
+                className='info-container '
+                onClick={() => handleEventClick(event._id)}
+              >
+                <img
+                  src={musicGenreImage}
+                  alt='a shadow man playing guitar'
+                  className='img'
+                />
+                <h2 className='event-name'>{event.EventName}</h2>
+                <div className='date-container'>
+                  <h3>Location: {event.Location}</h3>
+                  <h3>Time: {new Date(event.DateTime).toLocaleString()}</h3>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p>Loading event details</p>
-        )}
+            ))
+          ) : (
+            <p>Loading event details</p>
+          )}
+        </div>
       </div>
     </>
   );

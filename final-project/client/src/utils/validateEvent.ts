@@ -1,11 +1,12 @@
 // Form validation function
-import { EventFormData } from "./createEvent";
-import { UpdatedEventFormData } from "./Update/updateEvent";
+import { EventFormData } from "../components/CreateEvent/createEvent";
+import { UpdatedEventFormData } from "../components/CreateEvent/Update/updateEvent";
 
 export const validateEventFormData = (
   eventData: EventFormData | UpdatedEventFormData
 ): { [key: string]: string } => {
   const error: { [key: string]: string } = {};
+  if (!eventData.ArtistName) error.ArtistName = "Artist name is required.";
   if (!eventData.EventName) error.eventName = "Event name is required.";
   if (!eventData.Genre) error.genre = "Genre is required.";
   if (!eventData.Description) error.description = "Description is required.";
