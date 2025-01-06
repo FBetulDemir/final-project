@@ -4,14 +4,14 @@
     justify-content: space-between;
     position: relative;
     width: 100%;
-    margin: 20px 0;
+    margin: 2em 0;
 }
 
 .event-container {
     display: flex;
     overflow: hidden;
     width: 80%;
-    gap: 10px;
+    gap: 1em;
 }
 
 .event-card {
@@ -23,6 +23,7 @@
     padding: 10px;
     overflow: hidden;
     transition: transform 0.3s ease;
+    margin: 1em 0;
 }
 
 .event-card:hover {
