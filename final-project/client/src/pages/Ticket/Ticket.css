@@ -3,12 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  min-height: 100vh;
 }
 
 .modal-container {
@@ -22,7 +19,8 @@
   max-width: 100%;
   width: 600px;
   position: relative;
-  height: 90vh;
+  height: auto;
+  margin: 2rem 0;
 }
 .x-btn {
   position: absolute;
@@ -36,6 +34,7 @@
   background-color: #fff;
   transition: 0.8s ease;
   cursor: pointer;
+  z-index: 100;
 }
 .x-btn:hover {
   background-color: #cfcfcf;
@@ -66,4 +65,48 @@
 .map-co {
   height: 30vh;
   width: 35vw;
+}
+.event-name-ticket {
+  font-size: 30px;
+}
+.artist-name-ticket {
+  font-size: 20px;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .map-co {
+    width: 100%;
+  }
+  .modal-container {
+    max-width: 400px;
+  }
+  .container-info-attendants,
+  .container-info-date,
+  .container-info-location,
+  .description {
+    font-size: 16px;
+  }
+  .ticket-title {
+    font-size: 23px;
+  }
+}
+@media (max-width: 481px) {
+  .modal-container {
+    max-width: 300px;
+  }
+  .container-info {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .description {
+    max-width: 290px;
+  }
+  .ticket-title {
+    font-size: 20px;
+  }
+  .event-name-ticket {
+    font-size: 25px;
+  }
 }

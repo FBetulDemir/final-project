@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 interface EventData {
   _id: string;
+  ArtistName: string;
   EventName: string;
   Genre: string;
   Description: string;
@@ -74,7 +75,9 @@ const Ticket: React.FC = () => {
               />
             </div>
 
-            <h1>{event?.EventName}</h1>
+            <h2 className='event-name-ticket'>{event?.EventName}</h2>
+
+            <h3 className='artist-name-ticket'>Artist:{event?.ArtistName}</h3>
             <div className='description'>
               <h5>Description</h5>
               <p>{event?.Description}</p>
