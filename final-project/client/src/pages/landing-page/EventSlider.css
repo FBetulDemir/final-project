@@ -9,13 +9,13 @@
 
 .event-container {
     display: flex;
-    overflow: hidden; /* Ensure only visible events are displayed */
-    width: 80%; /* Adjust the width to fit your design */
-    gap: 10px; /* Add space between cards */
+    overflow: hidden;
+    width: 80%;
+    gap: 10px;
 }
 
 .event-card {
-    flex: 0 0 calc(25% - 10px); /* Dynamically adjust width for 4 cards */
+    flex: 0 0 calc(25% - 10px);
     text-align: center;
     background: white;
     border-radius: 8px;
@@ -26,7 +26,7 @@
 }
 
 .event-card:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
+    transform: scale(1.05);
 }
 
 .event-image {
@@ -75,4 +75,69 @@
 
 .right-arrow {
     right: 10px;
+}
+
+@media (max-width: 768px) {
+    .event-slider {
+        margin: 15px 0;
+    }
+
+    .event-container {
+        width: 90%;
+        gap: 5px;
+    }
+
+    .event-card {
+        flex: 0 0 calc(50% - 5px);
+        padding: 8px;
+    }
+
+    .event-image {
+        height: 120px;
+    }
+
+    .arrow {
+        height: 35px;
+        width: 35px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-slider {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-container {
+        width: 100%;
+        gap: 5px;
+    }
+
+    .event-card {
+        flex: 0 0 calc(100% - 5px);
+        padding: 5px;
+    }
+
+    .event-image {
+        height: 100px;
+    }
+
+    .event-info {
+        margin-top: 5px;
+    }
+
+    .event-name {
+        font-size: 0.9rem;
+    }
+
+    .event-date {
+        font-size: 0.8rem;
+    }
+
+    .arrow {
+        height: 30px;
+        width: 30px;
+        font-size: 1rem;
+    }
 }

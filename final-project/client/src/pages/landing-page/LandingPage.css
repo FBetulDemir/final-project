@@ -6,7 +6,7 @@
 
 .main-content {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Main content and sidebar */
+    grid-template-columns: 2fr 1fr;
     gap: 20px;
     width: 100%;
     max-width: 1200px;
@@ -52,4 +52,11 @@
     height: 150px;
     object-fit: cover;
     border-radius: 10px;
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        display: flex;
+        flex-direction: column;
+    }
 }
