@@ -32,6 +32,7 @@ interface Event {
 
 const GenrePage: React.FC = () => {
   const { genreName } = useParams<{ genreName: string }>();
+
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -61,7 +62,8 @@ const GenrePage: React.FC = () => {
   }, [genreName]);
 
   const handleGenreClick = (genre: string) => {
-    navigate(`/events/genre/${genre}`);
+    const encodedGenre = encodeURIComponent(genre);
+    navigate(`/events/genre/${encodedGenre}`);
   };
 
   return (
