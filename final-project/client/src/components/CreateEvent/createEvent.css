@@ -124,3 +124,12 @@ fieldset {
   padding: 5px;
   padding-top: 5rem;
 }
+
+@media screen and (max-width: 768px) {
+  .parent-cont {
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
