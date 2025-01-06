@@ -22,7 +22,9 @@
   list-style: none;
   display: flex;
   gap: 2rem;
+  margin: 0;
   padding: 0;
+  align-items: baseline;
 }
 
 .nav-item a {
@@ -101,4 +103,9 @@
   .hamburger {
     padding-right: 0;
   }
+}
+
+.logout-button {
+  background-color: #550080;
+  color: #fff;
 }
