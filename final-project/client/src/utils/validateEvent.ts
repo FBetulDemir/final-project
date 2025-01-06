@@ -1,6 +1,6 @@
 // Form validation function
-import { EventFormData } from "../components/CreateEvent/createEvent";
-import { UpdatedEventFormData } from "../components/CreateEvent/Update/updateEvent";
+import { EventFormData } from "../pages/CreateEvent/createEvent";
+import { UpdatedEventFormData } from "../pages/CreateEvent/Update/updateEvent";
 
 export const validateEventFormData = (
   eventData: EventFormData | UpdatedEventFormData
