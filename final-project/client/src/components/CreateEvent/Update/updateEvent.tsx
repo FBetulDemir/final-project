@@ -264,7 +264,7 @@ export default function UpdateEvent() {
                   "Latin",
                   "Metal",
                   "Punk",
-                  "World Music",
+                  "World_Music",
                   "Gospel",
                 ].map((genre) => (
                   <option key={genre} value={genre}>

@@ -249,7 +249,7 @@ export default function CreateEvent() {
                   <option value="Latin">Latin</option>
                   <option value="Metal">Metal</option>
                   <option value="Punk">Punk</option>
-                  <option value="World Music">World Music</option>
+                  <option value="World_Music">World Music</option>
                   <option value="Gospel">Gospel</option>
                 </select>
                 {error.genre && <span className="error">{error.genre}</span>}
