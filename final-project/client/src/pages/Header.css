@@ -38,10 +38,12 @@
 }
 
 .logout-button {
-  padding: 5px 15px;
-  background-color: #ffd0f3;
+  background-color: rgb(249, 232, 250);
+  color: #090808;
   border-radius: 5px;
-  color: #151515;
+  border: #fff 1px solid;
+  padding: 5px 15px;
+
   font-size: 18px;
   transition: all 0.4s ease-in-out;
 }
