@@ -8,7 +8,7 @@
   position: sticky;
   top: 0;
   left: 0;
-  padding-right: 20px;
+  padding-right: 30px;
   z-index: 5;
   /**Position fix was affected to some components, so used sticky to fixed*/
 }
@@ -16,6 +16,7 @@
 .logo-image {
   width: 80px;
   height: 80px;
+  margin-left: 20px;
 }
 
 .nav-links {
@@ -87,6 +88,7 @@
   .hamburger {
     display: block;
     z-index: 1000;
+    padding-right: 0;
   }
   .nav-links {
     display: flex;
@@ -115,8 +117,5 @@
   .logo-image {
     width: 60px;
     height: auto;
-  }
-  .hamburger {
-    padding-right: 0;
   }
 }
