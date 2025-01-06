@@ -9,7 +9,7 @@ import multer from "multer";
 import cors from "cors";
 import userRoutes from "./userRoutes.js";
 import eventsRouter from "./events.js";
-import landingPageRoutes from "./landingPageRoutes.js"
+import landingPageRoutes from "./landingPageRoutes.js";
 
 // Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
@@ -17,9 +17,9 @@ const __dirname = dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
-console.log(__filename)
-console.log(__dirname)
-console.log(process.env.JWT_SECRET)
+console.log(__filename);
+console.log(__dirname);
+console.log(process.env.JWT_SECRET);
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -40,8 +40,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-
 
 // Middleware
 app.use(express.json());

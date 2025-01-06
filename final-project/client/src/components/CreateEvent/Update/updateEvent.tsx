@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../createEvent.css";
-import { validateEventFormData } from "../validateEvent";
+import { validateEventFormData } from "../../../utils/validateEvent";
+import GoogleMap from "@components/GoogleMap/GoogleMap";
 
 export interface UpdatedEventFormData {
+  ArtistName: string;
   EventName: string;
   Genre: string;
   Description: string;
@@ -17,10 +19,10 @@ export interface UpdatedEventFormData {
 
 export default function UpdateEvent() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const [eventData, setEventData] = useState<UpdatedEventFormData>({
+    ArtistName: "",
     EventName: "",
     Genre: "",
     Description: "",
@@ -32,7 +34,10 @@ export default function UpdateEvent() {
   });
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [error, setError] = useState<{ [key: string]: string }>({});
-  const [, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [coordinates, setCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  }>({ lat: 0, lng: 0 });
 
   // Fetch event data when the component loads
   useEffect(() => {
@@ -42,6 +47,7 @@ export default function UpdateEvent() {
         .then((response) => {
           const event = response.data;
           setEventData({
+            ArtistName: event.ArtistName,
             EventName: event.EventName,
             Genre: event.Genre,
             Description: event.Description,
@@ -49,7 +55,7 @@ export default function UpdateEvent() {
             DateTime: new Date(event.DateTime).toISOString().slice(0, 16),
             TicketPrice: event.TicketPrice,
             MaxAttendees: event.MaxAttendees,
-            Poster: null, // Poster is handled separately
+            Poster: null,
           });
           setPosterPreview(event.Poster);
         })
@@ -58,6 +64,50 @@ export default function UpdateEvent() {
         });
     }
   }, [id]);
+
+  const cancelTokenRef = useRef<ReturnType<
+    typeof axios.CancelToken.source
+  > | null>(null);
+
+  useEffect(() => {
+    if (!eventData.Location) return;
+
+    if (cancelTokenRef.current) {
+      cancelTokenRef.current.cancel("New request initiated");
+    }
+
+    const cancelTokenSource = axios.CancelToken.source();
+    cancelTokenRef.current = cancelTokenSource;
+
+    const fetchCoordinates = async () => {
+      try {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json`,
+          {
+            params: {
+              address: eventData.Location,
+              key: import.meta.env.VITE_GEOCODING_API_KEY,
+            },
+            cancelToken: cancelTokenSource.token,
+          }
+        );
+
+        if (response.data.status === "OK") {
+          const location = response.data.results[0].geometry.location;
+          setCoordinates({ lat: location.lat, lng: location.lng });
+        }
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          console.error("Error in geocoding:", err);
+        }
+      }
+    };
+    fetchCoordinates();
+
+    return () => {
+      cancelTokenRef.current = null;
+    };
+  }, [eventData.Location]);
 
   const geocodeLocation = async (address: string) => {
     try {
@@ -91,7 +141,7 @@ export default function UpdateEvent() {
     >
   ) => {
     const { name, value } = e.target;
-    console.log(name, value)
+    console.log(name, value);
     setEventData((prevData) => ({ ...prevData, [name]: value }));
   };
 
@@ -110,17 +160,17 @@ export default function UpdateEvent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const validationErrors = validateEventFormData(eventData);
     if (Object.keys(validationErrors).length > 0) {
       setError(validationErrors);
       return;
     }
-  
+
     try {
       const location = await geocodeLocation(eventData.Location);
       console.log("Geocoded location:", location);
-  
+
       const formData = new FormData();
       Object.entries(eventData).forEach(([key, value]) => {
         if (value !== null) {
@@ -131,12 +181,12 @@ export default function UpdateEvent() {
           }
         }
       });
-  
+
       // Optional: Log the contents of formData
       for (const [key, val] of formData.entries()) {
         console.log(`${key}:`, val);
       }
-  
+
       const response = await axios.put(
         `http://localhost:3002/events/update-event/${id}`,
         formData,
@@ -146,7 +196,7 @@ export default function UpdateEvent() {
           },
         }
       );
-  
+
       console.log("Event updated successfully:", response.data);
       alert("Event updated successfully!");
       navigate("/");
@@ -156,12 +206,23 @@ export default function UpdateEvent() {
     }
   };
 
-
   return (
     <div className="parent-cont">
       <div className="container">
         <h2>Update Event</h2>
         <form onSubmit={handleSubmit} className="event-form">
+          <fieldset>
+            <label>Artist Name</label>
+            <input
+              type="text"
+              name="ArtistName"
+              value={eventData.ArtistName}
+              onChange={handleChange}
+            />
+            {error.ArtistName && (
+              <span className="error">{error.ArtistName}</span>
+            )}
+          </fieldset>
           <fieldset>
             <label>Event Name</label>
             <input
@@ -170,7 +231,9 @@ export default function UpdateEvent() {
               value={eventData.EventName}
               onChange={handleChange}
             />
-            {error.eventName && <span className="error">{error.eventName}</span>}
+            {error.eventName && (
+              <span className="error">{error.eventName}</span>
+            )}
           </fieldset>
 
           <fieldset>
@@ -216,7 +279,9 @@ export default function UpdateEvent() {
               value={eventData.Description}
               onChange={handleChange}
             />
-            {error.description && <span className="error">{error.description}</span>}
+            {error.description && (
+              <span className="error">{error.description}</span>
+            )}
           </fieldset>
 
           <fieldset>
@@ -249,7 +314,9 @@ export default function UpdateEvent() {
               accept="image/*"
               onChange={handlePosterChange}
             />
-            {posterPreview && <img src={posterPreview} alt="Poster Preview" width="200" />}
+            {posterPreview && (
+              <img src={posterPreview} alt="Poster Preview" width="200" />
+            )}
           </fieldset>
 
           <fieldset>
@@ -260,7 +327,9 @@ export default function UpdateEvent() {
               value={eventData.TicketPrice}
               onChange={handleChange}
             />
-            {error.ticketPrice && <span className="error">{error.ticketPrice}</span>}
+            {error.ticketPrice && (
+              <span className="error">{error.ticketPrice}</span>
+            )}
           </fieldset>
 
           <fieldset>
@@ -271,16 +340,16 @@ export default function UpdateEvent() {
               value={eventData.MaxAttendees}
               onChange={handleChange}
             />
-            {error.maxAttendees && <span className="error">{error.maxAttendees}</span>}
+            {error.maxAttendees && (
+              <span className="error">{error.maxAttendees}</span>
+            )}
           </fieldset>
 
           <button type="submit">Update Event</button>
         </form>
       </div>
       <div className="map-cont">
-        <div className="map">
-          <h1>MAP HERE</h1>
-        </div>
+        <GoogleMap coordinates={coordinates} mapHeight="80vh" />
       </div>
     </div>
   );

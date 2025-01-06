@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import "./createEvent.css";
 import axios from "axios";
-import { validateEventFormData } from "./validateEvent";
+import { validateEventFormData } from "../../utils/validateEvent";
 import GoogleMap from "../GoogleMap/GoogleMap";
 import { useNavigate } from "react-router-dom";
 
 export interface EventFormData {
+  ArtistName: string;
   EventName: string;
   Genre: string;
   Description: string;
@@ -17,11 +18,12 @@ export interface EventFormData {
 }
 
 export default function CreateEvent() {
-  const datetimeString = 'yyyy-MM-ddThh:mm:ssZ';
+  const datetimeString = "yyyy-MM-ddThh:mm:ssZ";
   const dateObject = new Date(datetimeString);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [eventData, setEventData] = useState<EventFormData>({
+    ArtistName: "",
     EventName: "",
     Genre: "",
     Description: "",
@@ -40,7 +42,7 @@ export default function CreateEvent() {
     if (!eventData.Location) return;
 
     if (cancelTokenRef.current) {
-      cancelTokenRef.current.cancel('New request initiated');
+      cancelTokenRef.current.cancel("New request initiated");
     }
 
     const cancelTokenSource = axios.CancelToken.source();
@@ -59,13 +61,13 @@ export default function CreateEvent() {
           }
         );
 
-        if (response.data.status === 'OK') {
+        if (response.data.status === "OK") {
           const location = response.data.results[0].geometry.location;
           setCoordinates({ lat: location.lat, lng: location.lng });
         }
       } catch (err) {
         if (!axios.isCancel(err)) {
-          console.error('Error in geocoding:', err);
+          console.error("Error in geocoding:", err);
         }
       }
     };
@@ -119,16 +121,16 @@ export default function CreateEvent() {
         }
       );
 
-      if (response.data.status === 'OK') {
+      if (response.data.status === "OK") {
         const location = response.data.results[0].geometry.location;
         setCoordinates({ lat: location.lat, lng: location.lng });
         return location;
       } else {
-        throw new Error('Geocoding failed. Check the address.');
+        throw new Error("Geocoding failed. Check the address.");
       }
     } catch (error) {
-      console.error('Error in geocoding:', error);
-      alert('Failed to fetch location. Please check the address.');
+      console.error("Error in geocoding:", error);
+      alert("Failed to fetch location. Please check the address.");
       throw error;
     }
   };
@@ -136,50 +138,51 @@ export default function CreateEvent() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const errValidation = validateEventFormData(eventData);
     if (Object.keys(errValidation).length > 0) {
       setError(errValidation);
       return;
     }
-  
+
     try {
       const { lat, lng } = await geocodeLocation(eventData.Location);
-  
+
       console.log("Latitude:", lat, "Longitude:", lng);
-  
+
       const eventDataToSend = new FormData();
+      eventDataToSend.append("ArtistName", eventData.ArtistName);
       eventDataToSend.append("EventName", eventData.EventName);
       eventDataToSend.append("Genre", eventData.Genre);
       eventDataToSend.append("Description", eventData.Description);
       eventDataToSend.append("Location", eventData.Location);
-      eventDataToSend.append("Latitude", lat); // Convert to string
-      eventDataToSend.append("Longitude", lng); // Convert to string
+      eventDataToSend.append("Latitude", lat);
+      eventDataToSend.append("Longitude", lng);
       eventDataToSend.append("DateTime", eventData.DateTime);
       eventDataToSend.append("TicketPrice", eventData.TicketPrice.toString());
       eventDataToSend.append("MaxAttendees", eventData.MaxAttendees.toString());
-  
+
       if (eventData.Poster) {
         eventDataToSend.append("Poster", eventData.Poster);
       }
-  
+
       // Log the FormData entries to see what's inside
       for (const [key, value] of eventDataToSend.entries()) {
         console.log(`${key}:`, value);
       }
-  
+
       const response = await axios.post(
-        'http://localhost:3002/events/create-event',
+        "http://localhost:3002/events/create-event",
         eventDataToSend,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      
+
       console.log("Event created successfully:", response.data);
-      
+
       alert("Event created successfully!");
       navigate("/");
     } catch (err) {
@@ -189,11 +192,23 @@ export default function CreateEvent() {
   };
 
   return (
-    <div className='parent-cont'>
-      <div className='container'>
+    <div className="parent-cont">
+      <div className="container">
         <h2>Create Event</h2>
-        <div className=''>
-          <form onSubmit={handleSubmit} className='event-form'>
+        <div className="">
+          <form onSubmit={handleSubmit} className="event-form">
+            <fieldset>
+              <label>Artist Name</label>
+              <input
+                type="text"
+                name="ArtistName"
+                value={eventData.ArtistName}
+                onChange={handleChange}
+              />
+              {error.ArtistName && (
+                <span className="error">{error.ArtistName}</span>
+              )}
+            </fieldset>
             <fieldset>
               <label>Event Name</label>
               <input
@@ -203,7 +218,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.eventName && (
-                <span className='error'>{error.eventName}</span>
+                <span className="error">{error.eventName}</span>
               )}
             </fieldset>
 
@@ -214,27 +229,27 @@ export default function CreateEvent() {
                 value={eventData.Genre}
                 onChange={handleChange}
               >
-                <option value='' disabled>
+                <option value="" disabled>
                   Select a Genre
                 </option>
-                <option value='Rock'>Rock</option>
-                <option value='Pop'>Pop</option>
-                <option value='Jazz'>Jazz</option>
-                <option value='Classical'>Classical</option>
-                <option value='Hip-Hop'>Hip-Hop</option>
-                <option value='EDM'>EDM</option>
-                <option value='Country'>Country</option>
-                <option value='Reggae'>Reggae</option>
-                <option value='Blues'>Blues</option>
-                <option value='Soul/R&B'>Soul/R&B</option>
-                <option value='Folk'>Folk</option>
-                <option value='Latin'>Latin</option>
-                <option value='Metal'>Metal</option>
-                <option value='Punk'>Punk</option>
-                <option value='World Music'>World Music</option>
-                <option value='Gospel'>Gospel</option>
+                <option value="Rock">Rock</option>
+                <option value="Pop">Pop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Classical">Classical</option>
+                <option value="Hip-Hop">Hip-Hop</option>
+                <option value="EDM">EDM</option>
+                <option value="Country">Country</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Blues">Blues</option>
+                <option value="Soul/R&B">Soul/R&B</option>
+                <option value="Folk">Folk</option>
+                <option value="Latin">Latin</option>
+                <option value="Metal">Metal</option>
+                <option value="Punk">Punk</option>
+                <option value="World Music">World Music</option>
+                <option value="Gospel">Gospel</option>
               </select>
-              {error.genre && <span className='error'>{error.genre}</span>}
+              {error.genre && <span className="error">{error.genre}</span>}
             </fieldset>
 
             <fieldset>
@@ -245,7 +260,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.description && (
-                <span className='error'>{error.description}</span>
+                <span className="error">{error.description}</span>
               )}
             </fieldset>
 
@@ -258,7 +273,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.location && (
-                <span className='error'>{error.location}</span>
+                <span className="error">{error.location}</span>
               )}
             </fieldset>
 
@@ -270,7 +285,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.dateTime && (
-                <span className='error'>{error.dateTime}</span>
+                <span className="error">{error.dateTime}</span>
               )}
             </fieldset>
             <fieldset>
@@ -283,7 +298,7 @@ export default function CreateEvent() {
               />
               {posterPreview && (
                 <div>
-                  <img src={posterPreview} alt='Poster Preview' width='200' />
+                  <img src={posterPreview} alt="Poster Preview" width="200" />
                 </div>
               )}
             </fieldset>
@@ -296,7 +311,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.ticketPrice && (
-                <span className='error'>{error.ticketPrice}</span>
+                <span className="error">{error.ticketPrice}</span>
               )}
             </fieldset>
 
@@ -309,15 +324,15 @@ export default function CreateEvent() {
                 onChange={handleChange}
               />
               {error.maxAttendees && (
-                <span className='error'>{error.maxAttendees}</span>
+                <span className="error">{error.maxAttendees}</span>
               )}
             </fieldset>
-            <button type='submit'>Create Event</button>
+            <button type="submit">Create Event</button>
           </form>
         </div>
       </div>
-      <div className='map-cont'>
-        <GoogleMap coordinates={coordinates} mapHeight='80vh' />
+      <div className="map-cont">
+        <GoogleMap coordinates={coordinates} mapHeight="80vh" />
       </div>
     </div>
   );
