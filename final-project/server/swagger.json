@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Event Management API",
+    "version": "1.0.0",
+    "description": "API for managing events including creation, retrieval, update, and deletion."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3002",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/create-event": {
+      "post": {
+        "summary": "Create a new event",
+        "description": "Creates a new event with the provided details and uploads a poster.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ArtistName": {
+                    "type": "string",
+                    "description": "Name of the artist"
+                  },
+                  "EventName": {
+                    "type": "string",
+                    "description": "Name of the event"
+                  },
+                  "Genre": {
+                    "type": "string",
+                    "description": "Genre of the event"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "description": "Description of the event"
+                  },
+                  "Location": {
+                    "type": "string",
+                    "description": "Location of the event"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "description": "Latitude of the event location"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "description": "Longitude of the event location"
+                  },
+                  "DateTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of the event"
+                  },
+                  "TicketPrice": {
+                    "type": "number",
+                    "description": "Ticket price for the event"
+                  },
+                  "MaxAttendees": {
+                    "type": "number",
+                    "description": "Maximum number of attendees"
+                  },
+                  "Poster": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Poster file for the event"
+                  }
+                },
+                "required": [
+                  "ArtistName",
+                  "EventName",
+                  "Genre",
+                  "Location",
+                  "Latitude",
+                  "Longitude",
+                  "DateTime",
+                  "TicketPrice",
+                  "MaxAttendees"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Event created successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Event" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields"
+          },
+          "500": {
+            "description": "Error creating event"
+          }
+        }
+      }
+    },
+    "/get-events": {
+      "get": {
+        "summary": "Retrieve all events",
+        "responses": {
+          "200": {
+            "description": "List of all events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Event" }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error retrieving events"
+          }
+        }
+      }
+    },
+    "/get-event/{id}": {
+      "get": {
+        "summary": "Retrieve an event by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the event to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Event" }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      }
+    },
+    "/update-event/{id}": {
+      "put": {
+        "summary": "Update an event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the event to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ArtistName": { "type": "string" },
+                  "EventName": { "type": "string" },
+                  "Genre": { "type": "string" },
+                  "Description": { "type": "string" },
+                  "Location": { "type": "string" },
+                  "Latitude": { "type": "number" },
+                  "Longitude": { "type": "number" },
+                  "DateTime": { "type": "string", "format": "date-time" },
+                  "TicketPrice": { "type": "number" },
+                  "MaxAttendees": { "type": "number" },
+                  "Poster": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Event" }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Error updating event"
+          }
+        }
+      }
+    },
+    "/delete/{id}": {
+      "delete": {
+        "summary": "Delete an event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the event to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Event" }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Error deleting event"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Event": {
+        "type": "object",
+        "properties": {
+          "EventId": { "type": "string" },
+          "MusicianId": { "type": "string" },
+          "ArtistName": { "type": "string" },
+          "EventName": { "type": "string" },
+          "Genre": { "type": "string" },
+          "Description": { "type": "string" },
+          "Location": { "type": "string" },
+          "Latitude": { "type": "number" },
+          "Longitude": { "type": "number" },
+          "DateTime": { "type": "string", "format": "date-time" },
+          "TicketPrice": { "type": "number" },
+          "MaxAttendees": { "type": "number" },
+          "Poster": { "type": "string" }
+        }
+      }
+    }
+  }
+}
