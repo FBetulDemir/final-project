@@ -8,7 +8,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 20px; /* Space between image and form */
+  gap: 20px;
   max-width: 100%;
   font-family: Arial, sans-serif;
   margin: 0 auto;
@@ -19,7 +19,7 @@
       -ms-flex: 2;
           flex: 2;
   padding: 0;
-  max-width: 600px; /* Adjust as necessary */
+  max-width: 600px;
 }
 
 .formSection {
@@ -46,7 +46,7 @@
 }
 
 .fieldset {
-  border: 1px solid #ccc; /* Fieldset border */
+  border: 1px solid #ccc;
   margin-bottom: 15px;
   border-radius: 10px;
   position: relative;
@@ -66,6 +66,13 @@ input[type=file] {
   background-color: transparent;
 }
 
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
 .error {
   color: red;
   font-size: 0.9rem;
@@ -73,21 +80,15 @@ input[type=file] {
 
 .legend {
   font-weight: bold;
-  font-size: 1rem; /* Smaller font size */
-  background-color: #fff; /* Ensure the background covers the text */
-  display: inline; /* Makes it behave like regular text */
+  font-size: 1rem;
+  background-color: #fff;
+  display: inline;
   max-width: 13%;
   text-wrap: nowrap;
   position: absolute;
   top: -19px;
   left: 13px;
   max-height: 17%;
-}
-
-input, select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
 }
 
 .button {
@@ -101,7 +102,7 @@ input, select {
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background-color: #25186b;
 }
 
@@ -119,4 +120,62 @@ button:hover {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  .heading {
+    font-size: 1.8rem;
+  }
+  .button {
+    width: 50%;
+  }
+  .legend {
+    font-size: 0.95rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .imageSection,
+  .formSection {
+    max-width: 100%;
+    width: 100%;
+    -webkit-box-flex: 0;
+        -ms-flex: none;
+            flex: none;
+  }
+  .form {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .button {
+    width: 100%;
+  }
+  .legend {
+    font-size: 0.9rem;
+    top: -14px;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .image {
+    width: 100%;
+    height: auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .heading {
+    font-size: 1.2rem;
+  }
+  .button {
+    padding: 8px 16px;
+  }
+  .legend {
+    font-size: 0.85rem;
+    top: -12px;
+  }
 }
