@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import "./createEvent.css";
 import axios from "axios";
 import { validateEventFormData } from "../../utils/validateEvent";
@@ -22,6 +22,8 @@ export default function CreateEvent() {
   const datetimeString = "yyyy-MM-ddThh:mm:ssZ";
   const dateObject = new Date(datetimeString);
   const navigate = useNavigate();
+  const userType = localStorage.getItem("userType");
+  console.log(`userType: ${userType}`);
 
   const [eventData, setEventData] = useState<EventFormData>({
     ArtistName: "",
@@ -34,6 +36,9 @@ export default function CreateEvent() {
     MaxAttendees: 0,
     Poster: null,
   });
+
+  const token = localStorage.getItem("token");
+  console.log("Token:", token);
 
   const cancelTokenRef = useRef<ReturnType<
     typeof axios.CancelToken.source
@@ -140,6 +145,13 @@ export default function CreateEvent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (userType !== "Musician") {
+      alert("You must be a musician to create an event.");
+
+      navigate("/"); // Prevent form submission
+      return;
+    }
+
     const errValidation = validateEventFormData(eventData);
     if (Object.keys(errValidation).length > 0) {
       setError(errValidation);
@@ -178,6 +190,7 @@ export default function CreateEvent() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

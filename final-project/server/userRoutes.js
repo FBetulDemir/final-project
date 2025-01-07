@@ -75,7 +75,11 @@ router.post(
 
       // Generate JWT token
       const token = jwt.sign(
-        { userId: newUser.UserId, username: newUser.Username },
+        {
+          userId: newUser.UserId,
+          username: newUser.Username,
+          userType: newUser.UserType,
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
@@ -87,7 +91,8 @@ router.post(
           UserId: newUser.UserId,
           Username: newUser.Username,
           Email: newUser.Email,
-          profilePictureUrl: newUser.profilePicture, // Send the image URL in the response
+          profilePictureUrl: newUser.profilePicture,
+          UserType: newUser.UserType, // Send the image URL in the response
         },
         token, // Include token for authentication
       });
@@ -99,7 +104,7 @@ router.post(
     }
   }
 );
-console.log(process.env.JWT_SECRET)
+console.log(process.env.JWT_SECRET);
 // Login user
 router.post("/api/login", async (req, res) => {
   const { Username, Password } = req.body;
@@ -119,11 +124,11 @@ router.post("/api/login", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { userId: user.UserId, username: user.Username },
+      { userId: user.UserId, username: user.Username, userType: user.UserType },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "999h" }
     );
-    
+    console.log("log in generated token: ", token);
 
     // Respond with the user details and token
     res.status(200).json({
@@ -133,6 +138,7 @@ router.post("/api/login", async (req, res) => {
         Username: user.Username,
         Email: user.Email,
         profilePictureUrl: user.ProfilePicture,
+        UserType: user.UserType,
       },
       token,
     });
