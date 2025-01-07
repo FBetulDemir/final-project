@@ -32,7 +32,6 @@ interface Event {
 
 const GenrePage: React.FC = () => {
   const { genreName } = useParams<{ genreName: string }>();
-
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -64,6 +63,7 @@ const GenrePage: React.FC = () => {
   const handleGenreClick = (genre: string) => {
     const encodedGenre = encodeURIComponent(genre);
     navigate(`/events/genre/${encodedGenre}`);
+    window.scrollTo(0, 0);
   };
 
   return (

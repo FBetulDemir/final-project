@@ -1,6 +1,6 @@
 /* .genre-wrapper {
-    height: 150vh;
-    color: white;
+  height: 150vh;
+  color: white;
 } */
 .genre-container {
   display: grid;
@@ -9,7 +9,7 @@
   gap: 2em;
   padding: 3em;
   background: linear-gradient(to right, #ff0080, #8000ff);
-  height: 95vh; /* Adjusted a bit size since I made 4th of row*/
+  height: 93vh; /* Adjusted a bit size since I made 4th of row*/
 }
 .genre-button {
   color: white;
@@ -31,4 +31,32 @@
   opacity: 0.9;
   transform: scale(1.05);
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 850px) {
+  .genre-container {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+  }
+  .genre-button {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 580px) {
+  .genre-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .genre-button {
+    font-size: 18px;
+  }
+}
+@media (max-width: 480px) {
+  .genre-container {
+    grid-template-columns: repeat(1, 1fr);
+    height: auto;
+  }
+  .genre-button {
+    font-size: 18px;
+  }
 }

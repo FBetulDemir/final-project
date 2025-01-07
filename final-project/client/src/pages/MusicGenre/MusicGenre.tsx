@@ -15,7 +15,6 @@ interface Event {
 const MusicGenre: React.FC = () => {
   const { genre } = useParams<{ genre: string }>();
   const [events, setEvents] = useState<Event[]>([]);
-  //* To connect Ticket component by ID
   const navigate = useNavigate();
 
   useEffect(() => {
