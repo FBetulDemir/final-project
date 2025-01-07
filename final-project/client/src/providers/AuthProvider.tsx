@@ -16,7 +16,9 @@ interface AuthContextProps {
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes in milliseconds
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null); // State for user information
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(userData); // Set user information
     const expirationTime = Date.now() + SESSION_TIMEOUT;
     localStorage.setItem("authExpiration", expirationTime.toString());
-    localStorage.setItem("token", "some-valid-token"); // Replace with actual token
     localStorage.setItem("user", JSON.stringify(userData)); // Store user data
   };
 
@@ -44,7 +45,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const token = localStorage.getItem("token");
       const storedUser = localStorage.getItem("user");
 
-      if (token && expirationTime && Date.now() < parseInt(expirationTime, 10) && storedUser) {
+      if (
+        token &&
+        expirationTime &&
+        Date.now() < parseInt(expirationTime, 10) &&
+        storedUser
+      ) {
         setIsAuthenticated(true);
         setUser(JSON.parse(storedUser)); // Restore user information
       } else {
@@ -61,7 +67,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
