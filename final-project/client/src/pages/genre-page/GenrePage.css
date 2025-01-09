@@ -8,7 +8,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 2em;
   padding: 3em;
-  background: linear-gradient(to right, #ff0080, #8000ff);
+  background: rgb(255, 255, 255);
   height: 93vh; /* Adjusted a bit size since I made 4th of row*/
 }
 .genre-button {
