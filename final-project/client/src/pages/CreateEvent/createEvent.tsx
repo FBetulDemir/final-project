@@ -257,7 +257,7 @@ export default function CreateEvent() {
                   <option value="Country">Country</option>
                   <option value="Reggae">Reggae</option>
                   <option value="Blues">Blues</option>
-                  <option value="Soul/R&B">Soul/R&B</option>
+                  <option value="Soul-RnB">Soul/R&B</option>
                   <option value="Folk">Folk</option>
                   <option value="Latin">Latin</option>
                   <option value="Metal">Metal</option>

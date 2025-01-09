@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './GenrePage.css';
-import Header from '../Header';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./GenrePage.css";
+import Header from "../Header";
 
 const genres = [
-  { name: 'Pop', color: '#FF6F61' },
-  { name: 'Rock', color: '#333333' },
-  { name: 'Hip-Hop', color: '#FFD700' },
-  { name: 'Jazz', color: '#6A5ACD' },
-  { name: 'Classical', color: '#8A2BE2' },
-  { name: 'Country', color: '#D2B48C' },
-  { name: 'Gospel', color: '#32CD32' },
-  { name: 'Reggae', color: '#FF69B4' },
-  { name: 'Blues', color: '#0000FF' },
-  { name: 'Folk', color: '#A0522D' },
-  { name: 'Soul/R&B', color: '#ADD8E6' },
-  { name: 'Metal', color: '#000000' },
-  { name: 'EDM', color: '#19A89A' },
-  { name: 'Latin', color: '#A81922' },
-  { name: 'Punk', color: '#FF5C25' },
-  { name: 'World_Music', color: '#7F8080' },
+  { name: "Pop", color: "#FF6F61" },
+  { name: "Rock", color: "#333333" },
+  { name: "Hip-Hop", color: "#FFD700" },
+  { name: "Jazz", color: "#6A5ACD" },
+  { name: "Classical", color: "#8A2BE2" },
+  { name: "Country", color: "#D2B48C" },
+  { name: "Gospel", color: "#32CD32" },
+  { name: "Reggae", color: "#FF69B4" },
+  { name: "Blues", color: "#0000FF" },
+  { name: "Folk", color: "#A0522D" },
+  { name: "Soul-RnB", color: "#ADD8E6" },
+  { name: "Metal", color: "#000000" },
+  { name: "EDM", color: "#19A89A" },
+  { name: "Latin", color: "#A81922" },
+  { name: "Punk", color: "#FF5C25" },
+  { name: "World_Music", color: "#7F8080" },
 ];
 
 interface Event {
@@ -67,14 +67,14 @@ const GenrePage: React.FC = () => {
   };
 
   return (
-    <div className='genre-wrapper'>
+    <div className="genre-wrapper">
       <Header />
-      <div className='genre-container'>
+      <div className="genre-container">
         {genres.map((genre) => (
           <button
             key={genre.name}
             onClick={() => handleGenreClick(genre.name)}
-            className='genre-button'
+            className="genre-button"
             style={{ backgroundColor: genre.color }}
           >
             {genre.name}
@@ -84,9 +84,9 @@ const GenrePage: React.FC = () => {
       {loading ? (
         <p>Loading events...</p>
       ) : (
-        <div className='event-grid'>
+        <div className="event-grid">
           {events.map((event) => (
-            <div key={event.id} className='event-card'>
+            <div key={event.id} className="event-card">
               <img src={event.image} alt={event.name} />
               <h3>{event.name}</h3>
               <p>{event.location}</p>

@@ -24,7 +24,7 @@ export const Genres = {
   COUNTRY: "Country",
   REGGAE: "Reggae",
   BLUES: "Blues",
-  SOUL_RNB: "Soul/R&B",
+  SOUL_RNB: "Soul-RnB",
   FOLK: "Folk",
   LATIN: "Latin",
   METAL: "Metal",

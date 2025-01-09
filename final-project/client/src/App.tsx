@@ -19,6 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/Browser" element={<Browser />} />
+        <Route path="/genre" element={<GenrePage />} />
         <Route path="/genre/:genreName" element={<GenrePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -48,10 +49,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/ticket/:id"
-          element={<Ticket />}
-        />
+        <Route path="/ticket/:id" element={<Ticket />} />
       </Routes>
     </Router>
   );

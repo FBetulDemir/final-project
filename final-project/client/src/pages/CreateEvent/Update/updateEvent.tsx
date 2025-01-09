@@ -259,7 +259,7 @@ export default function UpdateEvent() {
                   "Country",
                   "Reggae",
                   "Blues",
-                  "Soul/R&B",
+                  "Soul-RnB",
                   "Folk",
                   "Latin",
                   "Metal",
