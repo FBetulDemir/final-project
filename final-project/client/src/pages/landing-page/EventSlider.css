@@ -1,41 +1,22 @@
 .event-slider {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
   width: 100%;
   margin: 2em 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
-
   margin: 2em 0;
 }
 
 .event-container {
   display: flex;
   overflow: hidden;
-  width: 80%;
-  gap: 1em;
-  display: flex;
-  overflow: hidden;
   width: 100%;
-
-  height: 50vh;
+  height: auto;
   gap: 1em;
 }
 
 .event-card {
-  flex: 0 0 calc(25% - 10px);
-  text-align: center;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  margin: 1em 0;
   flex: 1 1 calc(30% - 20px);
   text-align: center;
   background: white;
@@ -50,7 +31,6 @@
 
 .event-card:hover {
   transform: scale(1.05);
-  transform: scale(1.05);
 }
 
 .event-image {
@@ -58,14 +38,9 @@
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
 }
 
 .event-info {
-  margin-top: 10px;
   margin-top: 10px;
 }
 
@@ -83,14 +58,12 @@
   font-size: 0.9rem;
   color: #555;
 }
-.event-date-slide {
-  font-size: 16px;
-  color: #ffffff;
-}
+.event-date-slide,
 .event-artist-slide {
   font-size: 16px;
   color: #ffffff;
 }
+
 .arrow {
   background: black;
   color: white;
