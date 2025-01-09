@@ -77,6 +77,23 @@
 .right-arrow {
   right: 10px;
 }
+.update-button {
+  padding: 12px 20px;
+  background: var(--clr-primary-400);
+  color: white;
+  height: 3rem;
+  min-width: 2rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 1s ease, transform 0.5s ease;
+  &:hover {
+    background: var(--clr-linear-200);
+    transform: scale(1.02);
+  }
+}
 
 @media (max-width: 768px) {
   .event-slider {
