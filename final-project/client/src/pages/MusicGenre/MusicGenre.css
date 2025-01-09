@@ -5,7 +5,9 @@
   width: 100vw;
   height: 100vh;
 }
-
+.music-title {
+  margin-top: 2rem;
+}
 .text-container {
   display: flex;
   flex-direction: column;
@@ -13,9 +15,7 @@
   align-items: center;
   gap: 20px;
 }
-.music-title {
-  margin-top: 20px;
-}
+
 .info-container {
   display: grid;
   grid-template-columns: repeat(130px, 1fr);
@@ -25,9 +25,9 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 600px;
+  max-width: 750px;
   padding: 10px;
-  background-color: rgb(212, 111, 195);
+  background: linear-gradient(to right, #f201e2, #000000);
 }
 
 .img {
@@ -35,7 +35,7 @@
   height: auto;
   object-fit: cover;
   grid-column: 1/2;
-  grid-row: 1/ 3;
+  grid-row: 2/ 3;
 }
 
 .date-container {
@@ -50,15 +50,15 @@
 
 .event-detail-music-genre {
   font-size: 20px;
-  color: #fce8fa;
+  color: #f7f5f7;
 }
 
 .event-name {
   grid-column: 1 / 3;
   grid-row: 1/3;
-  color: #fce8fa;
+  color: #f7f5f7;
   margin-bottom: 7rem;
-  font-size: 35px;
+  font-size: 30px;
   letter-spacing: 1px;
   text-align: center;
   align-self: center;
