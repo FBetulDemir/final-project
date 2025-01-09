@@ -74,6 +74,23 @@
   color: #000;
   letter-spacing: 1px;
 }
+.btn-ticket {
+  padding: 12px 20px;
+  background: var(--clr-primary-400);
+  color: white;
+  height: 3rem;
+  min-width: 9rem;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 1s ease, transform 0.5s ease;
+}
+.btn-ticket:hover {
+  background: var(--clr-linear-200);
+  transform: scale(1.02);
+}
 
 @media (max-width: 768px) {
   .map-co {
