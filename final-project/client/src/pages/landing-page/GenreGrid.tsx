@@ -52,7 +52,9 @@ const GenreGrid: React.FC = () => {
           style={{ backgroundColor: genre.color }}
           onClick={() => handleGenreClick(genre.name)}
         >
-          <span className="genre-name">{genre.name}</span>
+          <div className="genreTitle">
+            <h4 className="genre-name">{genre.name}</h4>
+          </div>
         </div>
       ))}
     </div>

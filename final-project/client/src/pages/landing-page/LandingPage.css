@@ -17,9 +17,9 @@
 .main-event-banner {
   grid-column: span 2;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #ff6f61, #6a5acd);
+  background: linear-gradient(135deg, #130101, #2b0922, #ff6cee);
   padding: 20px;
   color: white;
 }
@@ -34,6 +34,8 @@
 .banner-details {
   display: flex;
   flex-direction: column;
+  text-align: center;
+  gap: 1em;
 }
 
 .event-slider {
