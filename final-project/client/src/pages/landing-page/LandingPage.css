@@ -62,4 +62,11 @@
     display: flex;
     flex-direction: column;
   }
+  .main-event-banner {
+    flex-direction: column;
+    align-items: center;
+  }
+  .banner-image {
+    max-width: 12rem;
+  }
 }

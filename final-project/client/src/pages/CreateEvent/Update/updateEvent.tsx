@@ -33,6 +33,10 @@ export default function UpdateEvent() {
     MaxAttendees: 0,
     Poster: null,
   });
+
+  const token = localStorage.getItem("token");
+  console.log("Token:", token);
+
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [coordinates, setCoordinates] = useState<{
@@ -194,6 +198,7 @@ export default function UpdateEvent() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
