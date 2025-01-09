@@ -57,6 +57,12 @@
   border-radius: 10px;
 }
 
+@media (max-width: 768px) {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+  }
+}
 @media (max-width: 480px) {
   .main-content {
     display: flex;

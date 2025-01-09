@@ -1,32 +1,31 @@
 .event-slider {
-  width: 100%;
-  margin: 2em 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
+  width: 100%;
   margin: 2em 0;
 }
 
 .event-container {
   display: flex;
+  gap: 10px;
+  transition: transform 0.3s ease;
   overflow: hidden;
-  width: 100%;
-  height: auto;
-  gap: 1em;
+  width: 90%;
 }
 
 .event-card {
-  flex: 1 1 calc(30% - 20px);
+  flex: 0 0 calc(100% / 3 - 10px);
   text-align: center;
-  background: white;
+  background-color: #000;
+  color: aliceblue;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   padding: 10px;
   overflow: hidden;
   transition: transform 0.3s ease;
   margin: 1em 0;
-  background-color: #000;
 }
 
 .event-card:hover {
@@ -44,39 +43,17 @@
   margin-top: 10px;
 }
 
-.event-name {
+.event-name-slide {
   font-size: 1rem;
   font-weight: bold;
 }
-.event-name-slide {
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-}
 
-.event-date {
+.event-date-slide {
   font-size: 0.9rem;
-  color: #555;
-}
-.event-date-slide,
-.event-artist-slide {
-  font-size: 16px;
-  color: #ffffff;
+  color: #fdfdfd;
 }
 
 .arrow {
-  background: black;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.5rem;
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
   background: black;
   color: white;
   border: none;
@@ -93,16 +70,13 @@
 
 .arrow:hover {
   background: gray;
-  background: gray;
 }
 
 .left-arrow {
   left: 10px;
-  left: 10px;
 }
 
 .right-arrow {
-  right: 10px;
   right: 10px;
 }
 .update-button {
@@ -127,22 +101,13 @@
   .event-slider {
     margin: 15px 0;
   }
-  .event-slider {
-    margin: 15px 0;
-  }
-
-  .event-container {
-    width: 90%;
-    gap: 5px;
-  }
 
   .event-card {
-    flex: 0 0 calc(50% - 5px);
-    padding: 8px;
+    flex: 1 1 calc(50% - 10px);
   }
 
   .event-image {
-    height: 120px;
+    height: 180px;
   }
 
   .arrow {
@@ -158,28 +123,15 @@
     align-items: center;
   }
 
-  .event-container {
-    width: 100%;
-    gap: 5px;
-  }
-
   .event-card {
-    flex: 0 0 calc(100% - 5px);
-    padding: 5px;
-  }
-
-  .event-image {
-    height: 100px;
+    flex: 1, 1 calc(100% - 5px);
   }
 
   .event-info {
     margin-top: 5px;
   }
 
-  .event-name {
-    font-size: 0.9rem;
-  }
-
+  .event-name,
   .event-date {
     font-size: 0.8rem;
   }
