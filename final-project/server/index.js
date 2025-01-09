@@ -12,6 +12,7 @@ import eventsRouter from "./events.js";
 import landingPageRoutes from "./landingPageRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json" assert { type: "json" };
+import BrowserController from "./BrowserController.js"
 
 // Obtener el directorio actual usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
@@ -72,6 +73,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/posters", express.static("posters"));
 app.use("/events", eventsRouter);
+app.use("/Browser", BrowserController);
 
 // Start the server
 const PORT = 3002;

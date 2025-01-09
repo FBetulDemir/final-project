@@ -18,7 +18,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/browser" element={<Browser />} />
+        <Route path="/Browser" element={<Browser />} />
         <Route path="/genre/:genreName" element={<GenrePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -50,11 +50,7 @@ const App = () => {
         />
         <Route
           path="/ticket/:id"
-          element={
-            <ProtectedRoute>
-              <Ticket />
-            </ProtectedRoute>
-          }
+          element={<Ticket />}
         />
       </Routes>
     </Router>

@@ -1,89 +1,197 @@
-/* Línea superior */
-.gradient-header {
-    height: 35px;
-    width: 100%;
-    background: linear-gradient(to right, #FF00FF, #0000FF);
-    /* Colores de degradado */
-}
-
-/* Contenedor principal */
-.browser-container {
+/* General Styles */
+body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
 }
-
-/* Búsqueda */
-.search-section .input-group .form-control {
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.search-section .rounded-search {
-    border-radius: 10px;
-    /* Bordes redondeados */
-    padding: 10px;
-    margin-right: 34px;
-    width: 198px;
-    height: 29px;
-}
-
-.search-section .btn {
-    font-size: 16px;
-    padding: 8px 16px;
-}
-
-.custom-btn {
-    width: 59px;
-    height: 30px;
-    text-align: center;
-    background-color: rgb(184, 181, 181);
-    /* Un verde de ejemplo */
-    color: rgba(0, 0, 0, 1);
-    border-radius: 10px;
-
-}
-
-/* Tarjetas de conciertos */
-.near-you .concert-card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    background-color: #fff;
-}
-
-.near-you .concert-card:hover {
-    transform: translateY(-10px);
-    background-color: #f1f1f1;
-    /* Color al pasar el cursor */
-}
-
-.near-you .concert-card img {
-    height: 150px;
-    object-fit: cover;
+ 
+.browser-container {
     width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
 }
-
-.near-you .concert-info {
-    padding: 10px;
+ 
+/* Gradient Header */
+.gradient-header {
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(90deg, rgba(252, 94, 223, 1), rgba(37, 0, 111, 1));
+    margin-bottom: 20px;
+}
+ 
+/* Content Container */
+.content-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+ 
+/* Title */
+h1 {
+    font-size: 2.5rem;
+    color: #333333;
+    margin-bottom: 10px;
+}
+ 
+/* Search Section */
+.search-section .input-group {
+    display: flex;
+    justify-content: center;
+}
+ 
+.search-section .form-control {
+    border-radius: 25px 0 0 25px;
+    border: 1px solid #ddd;
+    height: 45px;
+    font-size: 16px;
+    padding: 10px 15px;
+}
+ 
+.search-section .custom-btn {
+    background-color: rgba(217, 217, 217, 1);
+    color: black;
+    border-radius: 0 25px 25px 0;
+    border: none;
+    height: 45px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+ 
+ 
+.search-section .custom-btn:hover {
+    background-color: #a19edf;
+}
+ 
+/* Near You Section */
+.near-you {
+    margin-top: 20px;
+    gap: 15px;
+}
+ 
+.concert-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.near-you .concert-info h5 {
-    font-size: 1.1rem;
+ 
+.concert-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+ 
+.concert-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+ 
+.concert-info h5 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #333333;
+}
+ 
+.concert-info p {
+    font-size: 0.9rem;
+    color: #555555;
+    margin: 0;
+}
+ 
+/* Concert List Section */
+.concert-list .table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+ 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+ 
+.table th,
+.table td {
+    text-align: left;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+ 
+.table th {
+    background-color: #f5f5f5;
+    color: #333333;
     font-weight: bold;
 }
-
-.near-you .concert-info p {
-    margin: 5px 0;
-    font-size: 0.9rem;
-    color: #555;
+ 
+.table td img.table-poster {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
 }
-
-/* Espaciado entre botones */
-.input-group .btn+.btn {
-    margin-left: 10px;
-    /* Espaciado entre botones */
+ 
+.table td button {
+ 
+    background-color: rgba(217, 217, 217, 1);
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+ 
+.table td button:hover {
+    background-color: #a19edf;
+}
+ 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .concert-card {
+        padding: 10px;
+    }
+ 
+    .concert-info h5 {
+        font-size: 0.9rem;
+    }
+ 
+    .concert-info p {
+        font-size: 0.8rem;
+    }
+ 
+    .table th,
+    .table td {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+}
+ 
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+ 
+    .search-section .form-control,
+    .search-section .custom-btn {
+        height: 40px;
+        font-size: 14px;
+    }
+ 
+    .concert-card img {
+        max-height: 120px;
+    }
+}
+ 
