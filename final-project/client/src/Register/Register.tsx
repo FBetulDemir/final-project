@@ -256,7 +256,11 @@ export default function Register() {
               )}
             </fieldset>
 
-            <button type="submit" className={styles.button}>
+            <button
+              type="submit"
+              className="update-button"
+              style={{ width: "11rem" }}
+            >
               Register
             </button>
           </form>

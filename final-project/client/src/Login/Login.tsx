@@ -134,7 +134,12 @@ const Login = () => {
               )}
             </fieldset>
 
-            <button type="submit" className={styles.button} disabled={loading}>
+            <button
+              type="submit"
+              className="update-button"
+              disabled={loading}
+              style={{ width: "13rem" }}
+            >
               {loading ? "Signing in..." : "Sign in"}
             </button>
             {message && <p className={styles.message}>{message}</p>}
