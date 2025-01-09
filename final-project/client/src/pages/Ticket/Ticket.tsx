@@ -103,7 +103,7 @@ const Ticket: React.FC = () => {
 
             <button
               type='button'
-              className='btn btn-secondary '
+              className='btn-ticket btn-secondary '
               style={{ marginTop: '10px' }}
               onClick={openMessage}
             >
